@@ -2,10 +2,6 @@
 
 #include <stdlib.h>
 
-typedef void (*t_protect_f)(void);
-
-#define N_PROTECT_F_DEFAULT n_error_and_exit
-
 void	n_error_and_exit(void)
 {
 	//	TODO: put error

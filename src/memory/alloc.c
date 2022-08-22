@@ -14,7 +14,7 @@ void	*n_zalloc(size_t size)
 }
 
 //	Allocate amount * size
-void	*n_alloc_array(size_t amount, size_t size)
+void	*n_zalloc_array(size_t amount, size_t size)
 {
 	return (n_zalloc(amount * size));
 }

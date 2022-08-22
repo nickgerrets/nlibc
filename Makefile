@@ -6,14 +6,14 @@
 #    By: ngerrets <ngerrets@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/07/15 14:47:03 by ngerrets      #+#    #+#                  #
-#    Updated: 2022/08/22 14:46:05 by ngerrets      ########   odam.nl          #
+#    Updated: 2022/08/22 18:09:00 by ngerrets      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # For now this is the default Makefile I use for C projects
 # Manually edit:
 NAME := libnlibc.a
-COMPILE_FLAGS ?= -Wall -Wextra -Werror -m64  -g -fsanitize=address
+COMPILE_FLAGS ?= -Wall -Wextra -m64  -g -fsanitize=address
 LINKING_FLAGS ?=
 LIBRARIES ?=
 SOURCE_DIRECTORY ?= src

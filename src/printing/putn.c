@@ -37,4 +37,5 @@ void	n_putint_array(int *arr, size_t	count, char *sep)
 		if (i < count)
 			n_putstr(sep);
 	}
+	n_putchar('\n');
 }

@@ -1,10 +1,12 @@
 #include "nlibc.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 void	n_error_and_exit(void)
 {
 	//	TODO: put error
+	perror(NULL);
 	exit(EXIT_FAILURE);
 }
 

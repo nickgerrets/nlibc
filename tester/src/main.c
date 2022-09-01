@@ -1,11 +1,24 @@
 #include "nlibc.h"
 
-#define NL write(STDOUT_FILENO, &"\n", sizeof(char))
+#define NL write(STDOUT_FILENO, &"\n", sizeof(char));
 #define IND write(STDOUT_FILENO, &"\t", sizeof(char))
 
 void	custom_protect_func(void)
 {
 	n_putstr_fd("ERROR!", STDERR_FILENO);
+}
+
+void	put_strarr(char** arr)
+{
+	n_putstr("[ ");
+	while (*arr)
+	{
+		n_putstr(*arr);
+		if (*(arr + 1))
+			n_putstr(", ");
+		arr++;
+	}
+	n_putstr(" ]");
 }
 
 int	main(void)
@@ -53,19 +66,19 @@ int	main(void)
 
 	NL; {
 
-		
+		const char* string = "This is \t a     string   ";
+		const char* delimitors = " \t";
+
+		n_putstr_endl("Splitting a string into a strarr (string array):");
+		n_putstr_endl("n_split()");
+		IND; n_putstr("String: "); n_putstr_endl(string);
+		IND; n_putstr("Delimitors: "); n_putstr(delimitors); n_putstr_endl(" (SPACE & TAB)");
+		char** arr = n_protect( n_split(string, delimitors) );
+		IND; n_putstr("Array: "); put_strarr(arr); NL;
+		IND; n_putstr_endl("Freeing with n_strarr_free()");
+		n_strarr_free(arr);
 	}
-	
-	n_putint(n_str_count_words("    This string has 5 words.   ", " ")); NL;
 
-	n_putint(n_str_count_words("        ", " ")); NL;
-
-	n_putint(n_str_count_words("    This    string   \t\t\t\t  \n\n\n\n\n   has 6 wor\nds.   da   ", " \t\n")); NL;
-
-	char	**arr;
-
-	arr = n_split("This is \t\t\t\n\n\n a string", " \n\t");
-	n_strarr_exec(arr, (t_str_f)n_putstr_endl);
 
 	return (0);
 }

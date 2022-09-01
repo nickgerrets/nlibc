@@ -6,7 +6,7 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 17:45:39 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/09/01 17:45:40 by ngerrets      ########   odam.nl         */
+/*   Updated: 2022/09/01 18:39:51 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	_fill_array(char **arr,const char *str, const char *delims, size_t w
 		{
 			arr[i] = NULL;
 			n_strarr_free(arr);
-			return (NULL);
+			arr = NULL;
+			return ;
 		}
 		while (*str && !n_strhaschar(delims, *str))
 			str++;
@@ -60,7 +61,6 @@ char	**n_split(const char *str, const char *delims)
 {
 	char	**arr;
 	size_t	words;
-	size_t	i;
 
 	words = n_str_count_words(str, delims);
 	arr = malloc(sizeof(char*) * (words + 1));

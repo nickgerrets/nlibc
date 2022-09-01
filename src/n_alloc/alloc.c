@@ -1,4 +1,4 @@
-#include "nlibc.h"
+#include "n_alloc.h"
 #include <stdlib.h>
 
 //	Sets memory to 0

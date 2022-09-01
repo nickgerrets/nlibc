@@ -1,4 +1,4 @@
-#include "nlibc.h"
+#include "n_mem.h"
 
 void	*n_memset(void *p, size_t size, char set)
 {

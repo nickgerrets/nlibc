@@ -1,4 +1,4 @@
-#include "nlibc.h"
+#include "n_protect.h"
 
 #include <stdlib.h>
 #include <stdio.h>

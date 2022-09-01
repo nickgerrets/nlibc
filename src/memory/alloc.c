@@ -18,3 +18,17 @@ void	*n_zalloc_array(size_t amount, size_t size)
 {
 	return (n_zalloc(amount * size));
 }
+
+void	*n_realloc(void *p, size_t old_size, size_t new_size)
+{
+	void	*mem;
+
+	mem = malloc(new_size);
+	if (!mem || !p)
+		return (mem);
+	if (old_size > new_size)
+		old_size = new_size;
+	n_memcpy(mem, p, old_size);
+	free(p);
+	return (mem);
+}

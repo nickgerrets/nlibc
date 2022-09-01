@@ -16,12 +16,6 @@ int	main(void)
 		free(arr);
 	}
 
-	//n_memset(arr, 10 * sizeof(int), 255);
-
-	//__INT_MAX__
-
-	//n_putint_array(arr, 10, ", ");
-
 
 	n_putstr( n_protect( n_strfind("this is a string", "is") ) );
 

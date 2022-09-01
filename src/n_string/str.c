@@ -6,11 +6,11 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/22 18:22:21 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/08/22 18:43:29 by ngerrets      ########   odam.nl         */
+/*   Updated: 2022/08/24 17:28:28 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "nlibc.h"
+#include "n_string.h"
 
 size_t	n_strlen(const char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 14:28:30 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/09/02 14:56:38 by ngerrets      ########   odam.nl         */
+/*   Updated: 2022/09/02 15:38:03 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	*n_memdup(const void *src, size_t size)
 	if (!mem)
 		return (NULL);
 	n_memcpy(mem, src, size);
+	return (mem);
 }
 
 //	find byte in memory starting at p, ending at p + size (or NULL if not found)

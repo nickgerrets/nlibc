@@ -6,7 +6,7 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 15:00:08 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/09/02 15:17:47 by ngerrets      ########   odam.nl         */
+/*   Updated: 2022/09/02 15:50:56 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ t_buffer	n_buffer_alloc(size_t size)
 	return (buffer);
 }
 
-size_t	n_buffer_add(t_buffer buffer, void *data, size_t data_size)
+size_t	n_buffer_add(t_buffer *buffer, const void *data, size_t data_size)
 {
-	if (!buffer.mem)
+	if (!buffer->mem)
 		return (0);
-	if (data_size > buffer.max_size - buffer.curr_size)
-		data_size = buffer.max_size - buffer.curr_size;
-	n_memcpy(buffer.mem + buffer.curr_size, data, data_size);
-	buffer.curr_size += data_size;
-	return (buffer.max_size - buffer.curr_size);
+	if (data_size > buffer->max_size - buffer->curr_size)
+		data_size = buffer->max_size - buffer->curr_size;
+	n_memcpy(buffer->mem + buffer->curr_size, data, data_size);
+	buffer->curr_size += data_size;
+	return (buffer->max_size - buffer->curr_size);
 }
 
 ssize_t	n_buffer_write(t_buffer buffer, int fd)

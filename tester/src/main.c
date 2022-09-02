@@ -79,5 +79,22 @@ int	main(void)
 		//	n_strarr_free(arr);
 	}
 
+	NL; {
+		const char* string1 = "This is a string that's going to be added to a buffer.";
+		const char* string2 = "Paste this string behind there, will ya.";
+
+		t_buffer buffer = n_buffer_alloc(1024);
+
+		n_putstr_endl("Creating a buffer and adding strings to it:");
+		IND; n_putstr("String1: "); n_putstr_endl(string1);
+		IND; n_putstr("String2: "); n_putstr_endl(string2);
+
+		n_buffer_add(&buffer, string1, n_strlen(string1) * sizeof(char));
+		n_buffer_add(&buffer, string2, n_strlen(string2));
+
+		n_putstr_endl("n_buffer_write()");
+		IND; n_putchar('|'); n_buffer_write(buffer, STDOUT_FILENO); n_putchar('|'); NL;
+	}
+
 	return (0);
 }

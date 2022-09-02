@@ -23,6 +23,7 @@ ssize_t	n_putstr(const char *str)
 ssize_t	n_putstr_endl(const char *str)
 {
 	ssize_t s;
+
 	s = n_putstr(str);
 	s += n_putchar('\n');
 	return (s);

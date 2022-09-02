@@ -8,7 +8,7 @@ void	custom_protect_func(void)
 	n_putstr_fd("ERROR!", STDERR_FILENO);
 }
 
-void	put_strarr(char** arr)
+static void	put_strarr(char** arr)
 {
 	n_putstr("[ ");
 	while (*arr)
@@ -65,7 +65,6 @@ int	main(void)
 	}
 
 	NL; {
-
 		const char* string = "This is \t a     string   ";
 		const char* delimitors = " \t";
 
@@ -75,10 +74,10 @@ int	main(void)
 		IND; n_putstr("Delimitors: "); n_putstr(delimitors); n_putstr_endl(" (SPACE & TAB)");
 		char** arr = n_protect( n_split(string, delimitors) );
 		IND; n_putstr("Array: "); put_strarr(arr); NL;
-		IND; n_putstr_endl("Freeing with n_strarr_free()");
-		n_strarr_free(arr);
+		IND; n_putstr_endl("Freeing with n_free_array()");
+		n_free_array(arr, n_strarr_size(arr));
+		//	n_strarr_free(arr);
 	}
-
 
 	return (0);
 }

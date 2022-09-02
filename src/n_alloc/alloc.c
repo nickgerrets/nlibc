@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   alloc.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/09/02 14:29:26 by ngerrets      #+#    #+#                 */
+/*   Updated: 2022/09/02 14:49:16 by ngerrets      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "n_alloc.h"
 #include <stdlib.h>
 
@@ -5,7 +17,7 @@
 void	*n_zalloc(size_t size)
 {
 	void	*mem;
-	
+
 	mem = malloc(size);
 	if (!mem)
 		return (NULL);
@@ -13,6 +25,7 @@ void	*n_zalloc(size_t size)
 	return (mem);
 }
 
+//	TO BE REMOVED, extremely unneccesary
 //	Allocate amount * size
 void	*n_zalloc_array(size_t amount, size_t size)
 {
@@ -31,4 +44,20 @@ void	*n_realloc(void *p, size_t old_size, size_t new_size)
 	n_memcpy(mem, p, old_size);
 	free(p);
 	return (mem);
+}
+
+//	Frees every element of an array
+void	n_free_array(void* array, size_t count)
+{
+	size_t	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		free(((void **)array)[i]);
+		i++;
+	}
+	free(array);
 }

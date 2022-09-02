@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   strarr.c                                           :+:    :+:            */
+/*   str_array.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/01 17:45:47 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/09/01 17:45:48 by ngerrets      ########   odam.nl         */
+/*   Updated: 2022/09/02 14:40:49 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ char	*n_strarr_find(char **arr, const char *str)
 	return (NULL);
 }
 
-char	*n_str_first_word(const char *str, const char *delims)
+size_t	n_strarr_size(char **arr)
 {
-	while (n_strhaschar(delims, *str))
-		str++;
-	return ((char *)str);
+	size_t	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }

@@ -28,7 +28,7 @@ void	*n_memcpy(void *dst, const void *src, size_t size)
 	while (size > 0)
 	{
 		*((t_byte *)dst + size - 1) = *((t_byte *)src + size - 1);
-		size--;
+		--size;
 	}
 	return (dst);
 }

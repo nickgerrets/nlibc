@@ -5,5 +5,6 @@
 # include "n_alloc.h"
 # include "n_protect.h"
 # include "n_print.h"
+# include "n_vector.h"
 
 #endif

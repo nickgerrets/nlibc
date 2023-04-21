@@ -38,3 +38,11 @@ ssize_t	n_buffer_write(t_buffer buffer, int fd)
 {
 	return (write(fd, buffer.mem, buffer.curr_size));
 }
+
+void n_buffer_free(t_buffer *buffer)
+{
+	buffer->curr_size = 0;
+	buffer->max_size = 0;
+	free(buffer->mem);
+	buffer->mem = NULL;
+}

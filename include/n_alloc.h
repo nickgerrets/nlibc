@@ -15,6 +15,7 @@
 
 # include "n_mem.h"
 # include <unistd.h>
+# include <stdlib.h>
 
 typedef struct	s_buffer
 {
@@ -33,5 +34,6 @@ void	n_free_array(void* array, size_t count);
 t_buffer	n_buffer_alloc(size_t size);
 size_t		n_buffer_add(t_buffer *buffer, const void *data, size_t data_size);
 ssize_t		n_buffer_write(t_buffer buffer, int fd);
+void		n_buffer_free(t_buffer *buffer);
 
 #endif // N_ALLOC_H

@@ -15,6 +15,8 @@
 
 void	*n_memset(void *p, size_t size, t_byte set)
 {
+	if (!p)
+		return (NULL);
 	while (size > 0)
 	{
 		*((t_byte *)p + size - 1) = set;
@@ -25,11 +27,33 @@ void	*n_memset(void *p, size_t size, t_byte set)
 
 void	*n_memcpy(void *dst, const void *src, size_t size)
 {
+	void *ret;
+
+	if (!(dst || src))
+		return (NULL);
+	ret = dst;
 	while (size > 0)
 	{
-		*((t_byte *)dst + size - 1) = *((t_byte *)src + size - 1);
+		*(t_byte *)dst++ = *(t_byte *)src++;
 		--size;
 	}
+	return (ret);
+}
+
+void	*n_memmove(void *dst, const void *src, size_t size)
+{
+	if (!(dst || src))
+		return (NULL);
+	if (dst > src && dst < src + size)
+	{
+		while (size > 0)
+		{
+			*((t_byte *)dst + size - 1) = *((t_byte *)src + size - 1);
+			--size;
+		}
+	}
+	else
+		n_memcpy(dst, src, size);
 	return (dst);
 }
 

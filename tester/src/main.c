@@ -23,10 +23,27 @@ static void	put_strarr(char** arr)
 	n_putstr(" ]");
 }
 
-static void put_digit_data_iter_f(void *n)
+static void put_digit_data_f(void *n)
 {
 	n_putint(*(int *)n);
 	n_putchar(',');
+}
+
+static void put_int_array(int *array, size_t count)
+{
+	size_t i;
+
+	if (!(array || count))
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		n_putint(array[i]);
+		if (i != count - 1)
+			n_putchar(',');
+		++i;
+	}
+	n_putchar('\n');
 }
 
 int	main(void)
@@ -107,6 +124,26 @@ int	main(void)
 	}
 
 	NL; {
+		int _array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 9};
+		int _array2[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+		n_putstr_endl("array before memmove:");
+		put_int_array(_array, sizeof(_array) / sizeof(int));
+
+		n_putstr_endl("n_memmove() 9 elements 1 to the right");
+		n_memmove(&_array[1], _array, 9 * sizeof(int));
+		n_putstr_endl("array after memmove:");
+		put_int_array(_array, sizeof(_array) / sizeof(int));
+
+		n_putstr_endl("array2 before n_memcpy:");
+		put_int_array(_array2, sizeof(_array2) / sizeof(int));
+		n_putstr_endl("n_memcpy() 10 elements from array to array2");
+		n_memcpy(_array2, _array, 10 * sizeof(int));
+		n_putstr_endl("array2 after n_memcpy:");
+		put_int_array(_array2, sizeof(_array2) / sizeof(int));
+	}
+
+	NL; {
 		int _array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
 
 		t_vector vector = n_vector_alloc(sizeof(int));
@@ -120,7 +157,7 @@ int	main(void)
 		n_vector_insert(&vector, &(int){666}, 2);
 
 		n_putstr_endl("n_vector_iterate():");
-		n_vector_iterate(&vector, put_digit_data_iter_f); NL;
+		n_vector_iterate(&vector, put_digit_data_f); NL;
 		printf("vector count / max_count: %lu/%lu\n", vector.curr_count, vector.max_count);
 
 		n_vector_free(&vector);

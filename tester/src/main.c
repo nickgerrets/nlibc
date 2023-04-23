@@ -1,26 +1,11 @@
 #include "nlibc.h"
+#include "tester.h"
 
 # include <stdio.h>
-
-#define NL write(STDOUT_FILENO, &"\n", sizeof(char));
-#define IND write(STDOUT_FILENO, &"\t", sizeof(char))
 
 void	custom_protect_func(void)
 {
 	n_putstr_fd("ERROR!", STDERR_FILENO);
-}
-
-static void	put_strarr(char** arr)
-{
-	n_putstr("[ ");
-	while (*arr)
-	{
-		n_putstr(*arr);
-		if (*(arr + 1))
-			n_putstr(", ");
-		arr++;
-	}
-	n_putstr(" ]");
 }
 
 static void put_digit_data_f(void *n)
@@ -29,124 +14,36 @@ static void put_digit_data_f(void *n)
 	n_putchar(',');
 }
 
-static void put_int_array(int *array, size_t count)
-{
-	size_t i;
-
-	if (!(array || count))
-		return ;
-	i = 0;
-	while (i < count)
-	{
-		n_putint(array[i]);
-		if (i != count - 1)
-			n_putchar(',');
-		++i;
-	}
-	n_putchar('\n');
-}
-
 int	main(void)
 {
-	//	Finding a substring within a string:
-	NL; {
-		const char*	string = "This is a string!";
-		const char* substring = "a";
+	tester_strings();
 
-		n_putstr_endl("Finding a substring within a string:");
-		n_putstr_endl("n_strfind()");
-		IND; n_putstr("String: "); n_putstr_endl(string);
-		IND; n_putstr("Substring: "); n_putstr_endl(substring);
-
-		char* found = n_strfind(string, substring);
-		IND; n_putstr("Found: ");
-		if (found)
-		{
-			n_putstr("true ("); n_putstr(found); n_putstr_endl(")");
-		}
-		else
-			n_putstr_endl("false");
-	}
-
-	//	Checking if a string is equal to another
-	NL; {
-		const char* string1 = "Hello!";
-		const char* string2 = "Hey!";
-		const char* string3 = "Hello!";
-
-		n_putstr_endl("Checking if a string is equal to another:");
-		n_putstr_endl("n_strequal()");
-		IND; n_putstr("String1: "); n_putstr_endl(string1);
-		IND; n_putstr("String2: "); n_putstr_endl(string2);
-		IND; n_putstr("String3: "); n_putstr_endl(string3);
-		
-		IND; n_putstr("1 == 2: "); n_putint(n_strequals(string1, string2)); NL;
-		IND; n_putstr("1 == 3: "); n_putint(n_strequals(string1, string3)); NL;
-
-		n_putstr_endl("n_strcmp()");
-		IND; n_putstr("(1, 2): "); n_putint(n_strcmp(string1, string2)); NL;
-		IND; n_putstr("(1, 3): "); n_putint(n_strcmp(string1, string3)); NL;
-	}
-
-	NL; {
-		const char* string = "This is \t a     string   ";
-		const char* delimitors = " \t";
-
-		n_putstr_endl("Splitting a string into a strarr (string array):");
-		n_putstr_endl("n_split()");
-		IND; n_putstr("String: "); n_putstr_endl(string);
-		IND; n_putstr("Delimitors: "); n_putstr(delimitors); n_putstr_endl(" (SPACE & TAB)");
-		char** arr = n_protect( n_split(string, delimitors) );
-		IND; n_putstr("Array: "); put_strarr(arr); NL;
-		IND; n_putstr_endl("Freeing with n_free_array()");
-		n_free_array(arr, n_strarr_size(arr));
-		//	n_strarr_free(arr);
-	}
-
-	NL; {
-		const char* string1 = "This is a string that's going to be added to a buffer.";
-		const char* string2 = " Paste this string behind there, will ya.";
-
-		t_buffer buffer = n_buffer_alloc(1024);
-
-		n_putstr_endl("Creating a buffer and adding strings to it:");
-		IND; n_putstr("String1: "); n_putstr_endl(string1);
-		IND; n_putstr("String2: "); n_putstr_endl(string2);
-
-		n_buffer_add(&buffer, string1, n_strlen(string1) * sizeof(char));
-		n_buffer_add(&buffer, string2, n_strlen(string2) * sizeof(char));
-
-		n_putstr_endl("n_buffer_write()");
-		IND; n_putchar('|'); n_buffer_write(buffer, STDOUT_FILENO); n_putchar('|'); NL;
-
-		n_putstr_endl("n_buffer_free()");
-		n_buffer_free(&buffer);
-	}
-
+	// MEM TESTS
 	NL; {
 		int _array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 9};
 		int _array2[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 		n_putstr_endl("array before memmove:");
-		put_int_array(_array, sizeof(_array) / sizeof(int));
+		n_putint_array(_array, sizeof(_array) / sizeof(int), ", ");
 
 		n_putstr_endl("n_memmove() 9 elements 1 to the right");
 		n_memmove(&_array[1], _array, 9 * sizeof(int));
 		n_putstr_endl("array after memmove:");
-		put_int_array(_array, sizeof(_array) / sizeof(int));
+		n_putint_array(_array, sizeof(_array) / sizeof(int), ", ");
 
 		n_putstr_endl("array2 before n_memcpy:");
-		put_int_array(_array2, sizeof(_array2) / sizeof(int));
+		n_putint_array(_array2, sizeof(_array2) / sizeof(int), ", ");
 		n_putstr_endl("n_memcpy() 10 elements from array to array2");
 		n_memcpy(_array2, _array, 10 * sizeof(int));
 		n_putstr_endl("array2 after n_memcpy:");
-		put_int_array(_array2, sizeof(_array2) / sizeof(int));
+		n_putint_array(_array2, sizeof(_array2) / sizeof(int), ", ");
 	}
 
+	// VECTOR TESTS
 	NL; {
 		int _array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
 
-		t_vector vector = n_vector_alloc(sizeof(int));
+		t_vector vector = n_vector_new(sizeof(int));
 
 		n_vector_add(&vector, &(int){4});
 		n_vector_add(&vector, &(int){5});
@@ -162,6 +59,8 @@ int	main(void)
 
 		n_vector_free(&vector);
 	}
+
+	NL; tester_lists();
 
 	return (0);
 }

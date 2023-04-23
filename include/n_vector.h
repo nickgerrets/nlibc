@@ -17,8 +17,8 @@ typedef struct s_vector
 	size_t	element_size;
 }	t_vector;
 
-t_vector	n_vector_alloc(size_t _sizeof);
-t_vector	n_vector_alloc_count(size_t _sizeof, size_t count);
+t_vector	n_vector_new(size_t _sizeof);
+t_vector	n_vector_new_count(size_t _sizeof, size_t count);
 void		n_vector_resize(t_vector *vector, size_t new_count);
 void		n_vector_add_array(t_vector *vector, void const *data, size_t count);
 void		n_vector_add(t_vector *vector, void const *data);

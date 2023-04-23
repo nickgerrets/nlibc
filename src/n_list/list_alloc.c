@@ -8,6 +8,7 @@ t_list	*n_list_new(void *content)
 	if (!list)
 		return (NULL);
 	list->content = content;
+	list->next = NULL;
 	return (list);
 }
 
@@ -17,7 +18,8 @@ void	n_list_free(t_list *head, t_data_f del_func)
 
 	while (head)
 	{
-		del_func(head->content);
+		if (del_func)
+			del_func(head->content);
 		del = head;
 		head = head->next;
 		free(del);

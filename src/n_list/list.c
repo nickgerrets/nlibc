@@ -11,6 +11,8 @@ void	n_list_push_front(t_list **dst_head, t_list *src_head)
 {
 	t_list	*head;
 
+	if (!src_head)
+		return ;
 	if (!*dst_head)
 	{
 		*dst_head = src_head;
@@ -54,11 +56,11 @@ size_t	n_list_count(t_list *list)
 	return (count);
 }
 
-void	n_list_iterate(t_list *head, t_data_f func)
+void	n_list_iterate(t_list *head, t_list_f func)
 {
 	while (head)
 	{
-		func(head->content);
+		func(head);
 		head = head->next;
 	}
 }

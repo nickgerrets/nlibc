@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_string.h"
+#include "n_cstr.h"
 
 void	n_strarr_exec(char **arr, t_str_f func)
 {

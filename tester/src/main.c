@@ -61,6 +61,8 @@ int	main(void)
 		printf("n_buffer_write() to STDOUT:\n");
 		n_buffer_write(buffer, STDOUT_FILENO); NL;
 
+		n_buffer_free(&buffer);
+
 		close(fd);
 	}
 
@@ -92,6 +94,7 @@ int	main(void)
 
 	NL; tester_lists();
 	NL; tester_tree();
+	NL; tester_tokenizer();
 
 	return (0);
 }

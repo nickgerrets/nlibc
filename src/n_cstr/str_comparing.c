@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_string.h"
+#include "n_cstr.h"
 
 int	n_strcmp(const char *str1, const char *str2)
 {

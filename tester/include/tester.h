@@ -1,6 +1,8 @@
 #ifndef TESTER_H
 # define TESTER_H
 
+# include <stdio.h>
+
 # include "nlibc.h"
 
 # define NL write(STDOUT_FILENO, &"\n", sizeof(char));
@@ -9,5 +11,6 @@
 void tester_strings(void);
 void tester_lists(void);
 void tester_tree(void);
+void tester_tokenizer(void);
 
 #endif // TESTER_H

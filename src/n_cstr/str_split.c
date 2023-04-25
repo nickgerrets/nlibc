@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_string.h"
+#include "n_cstr.h"
 
 static char	*_alloc_word(const char *str, const char *delims)
 {

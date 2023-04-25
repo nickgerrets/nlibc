@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_string.h"
+#include "n_cstr.h"
 
 size_t	n_strlen(const char *str)
 {

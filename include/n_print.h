@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 
-#include "n_string.h"
+#include "n_cstr.h"
 
 //	put.c
 ssize_t	n_putchar_fd(char c, int fd);

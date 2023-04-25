@@ -89,4 +89,19 @@ void tester_strings(void)
 		n_putstr_endl("n_buffer_free()");
 		n_buffer_free(&buffer);
 	}
+
+	NL; {
+		n_putstr_endl("Creating a dynamic string");
+		t_string string = n_string_new_cstr("Hello there how are you?");
+		n_string_add_cstr(&string, " I am doing very well!");
+		n_string_add_cstr(&string, " WOW this is so cool!");
+
+		n_putstr_endl("n_string_cstr():");
+		IND; n_putstr_endl(n_string_cstr(&string));
+
+		n_putstr_endl("n_string_write() to STDOUT:");
+		IND; n_string_write(&string, STDOUT_FILENO); NL;
+
+		n_string_free(&string);
+	}
 }

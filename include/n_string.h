@@ -1,43 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   n_string.h                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/09/01 17:45:45 by ngerrets      #+#    #+#                 */
-/*   Updated: 2022/09/02 14:41:04 by ngerrets      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef N_STRING_H
 # define N_STRING_H
 
-# include <stddef.h>
-# include <stdlib.h>
+# include "n_cstr.h"
+# include "n_vector.h"
 
-//	represents a function that can be executed on a string (or char)
-typedef void (*t_str_f)(char *);
+typedef struct s_string t_string;
+struct s_string
+{
+	t_vector	strvec;
+};
 
-//	str_counting.c
-size_t	n_strlen(const char *str);
-size_t	n_strlen_p(const char *str);
-size_t	n_str_count_words(const char *str, const char *delims);
+t_string	n_string_new(void);
+t_string	n_string_new_cstr(char const *cstr);
+t_string	n_string_new_count(size_t count);
+void		n_string_resize(t_string *string, size_t new_count);
+void		n_string_add_cstr(t_string *string, char const *cstr);
+void		n_string_add_char(t_string *string, char c);
+char const	*n_string_cstr(t_string *string);
+ssize_t		n_string_write(t_string *string, int fd);
+void		n_string_free(t_string *string);
 
-//	str_comparing.c
-char	*n_strhaschar(const char *str, char c);
-int		n_strcmp(const char *str1, const char *str2);
-int		n_strequals(const char *str1, const char *str2);
-char	*n_strfind(const char *str, const char *sub);
-char	*n_str_next_word(const char *str, const char *delims);
+// TODO: implementation
+typedef struct s_string_window t_string_window;
+struct s_string_window
+{
+	char const	*p;
+	size_t		length;
+};
 
-//	str_split.c
-char	**n_split(const char *str, const char *delims);
+// t_string_window	n_string_window_create(char const *start, size_t length);
+// t_string_window	n_string_window_create_p(char const *start, char const *end);
+// t_string_window	n_string_window_create_cstr(char const *cstr);
 
-//	str_array.c
-void	n_strarr_exec(char **arr, t_str_f func);
-void	n_strarr_free(char **arr);
-char	*n_strarr_find(char **arr, const char *str);
-size_t	n_strarr_size(char **arr);
+// char	*n_string_window_dup(t_string_window strwin);
+// void	n_string_window_move(t_string_window *strwin, int move);
 
-#endif // N_STRING_H
+#endif

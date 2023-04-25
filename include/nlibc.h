@@ -7,5 +7,6 @@
 # include "n_print.h"
 # include "n_vector.h"
 # include "n_list.h"
+# include "n_tree.h"
 
 #endif

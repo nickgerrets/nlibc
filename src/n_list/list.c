@@ -7,40 +7,43 @@ t_list	*n_list_last(t_list *list)
 	return (list);
 }
 
-void	n_list_push_front(t_list **dst_head, t_list *src_head)
+t_list	*n_list_push_front(t_list **dst_head, t_list *src_head)
 {
 	t_list	*head;
 
 	if (!src_head)
-		return ;
+		return (NULL);
 	if (!*dst_head)
 	{
 		*dst_head = src_head;
-		return ;
+		return (src_head);
 	}
 	head = src_head;
 	src_head = n_list_last(src_head);
 	src_head->next = *dst_head;
 	*dst_head = head;
+	return (src_head);
 }
 
-void	n_list_push_back(t_list **dst_head, t_list *src_head)
+t_list	*n_list_push_back(t_list **dst_head, t_list *src_head)
 {
 	if (!*dst_head)
 	{
 		*dst_head = src_head;
-		return ;
+		return (src_head);
 	}
 	n_list_last(*dst_head)->next = src_head;
+	return (src_head);
 }
 
-void	n_list_insert(t_list *prev, t_list *new)
+t_list	*n_list_insert(t_list *prev, t_list *new)
 {
 	t_list *next;
 
 	next = prev->next;
 	prev->next = new;
 	new->next = next;
+	return (new);
 }
 
 size_t	n_list_count(t_list *list)

@@ -8,5 +8,6 @@
 
 void tester_strings(void);
 void tester_lists(void);
+void tester_tree(void);
 
 #endif // TESTER_H

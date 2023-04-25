@@ -91,6 +91,7 @@ int	main(void)
 	}
 
 	NL; tester_lists();
+	NL; tester_tree();
 
 	return (0);
 }

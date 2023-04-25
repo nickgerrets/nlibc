@@ -22,9 +22,9 @@ void	n_list_delete_element(t_list **head, t_list *element, t_data_f del_func);
 
 // list.c
 t_list	*n_list_last(t_list *list);
-void	n_list_push_front(t_list **dst_head, t_list *src_head);
-void	n_list_push_back(t_list **dst_head, t_list *src_head);
-void	n_list_insert(t_list *prev, t_list *new);
+t_list	*n_list_push_front(t_list **dst_head, t_list *src_head);
+t_list	*n_list_push_back(t_list **dst_head, t_list *src_head);
+t_list	*n_list_insert(t_list *prev, t_list *new);
 size_t	n_list_count(t_list *list);
 void	n_list_iterate(t_list *head, t_list_f func);
 

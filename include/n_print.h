@@ -15,6 +15,7 @@ ssize_t	n_putstr_endl(const char *str);
 //	putn.c
 void	n_putint_fd(int n, int fd);
 void	n_putint(int n);
+void	n_putint_array_fd(int *arr, int fd, size_t	count, char *sep);
 void	n_putint_array(int *arr, size_t	count, char *sep);
 
 #endif // N_PRINT_H

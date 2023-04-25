@@ -13,7 +13,7 @@
 #include "n_alloc.h"
 #include <unistd.h>
 
-t_buffer	n_buffer_alloc(size_t size)
+t_buffer	n_buffer_new(size_t size)
 {
 	t_buffer	buffer;
 
@@ -37,6 +37,20 @@ size_t	n_buffer_add(t_buffer *buffer, const void *data, size_t data_size)
 ssize_t	n_buffer_write(t_buffer buffer, int fd)
 {
 	return (write(fd, buffer.mem, buffer.curr_size));
+}
+
+ssize_t	n_buffer_read(t_buffer *buffer, int fd, size_t size)
+{
+	ssize_t read_size;
+
+	if (buffer->curr_size + size > buffer->max_size)
+		size = buffer->max_size - buffer->curr_size;
+	read_size = read(fd, (t_byte *)buffer->mem + buffer->curr_size, size);
+	if (read_size < 0)
+		return (read_size);
+	buffer->curr_size += (size_t)read_size;
+	return (read_size);
+
 }
 
 void n_buffer_free(t_buffer *buffer)

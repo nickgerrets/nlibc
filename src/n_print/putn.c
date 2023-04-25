@@ -25,17 +25,22 @@ void	n_putint(int n)
 	n_putint_fd(n, STDOUT_FILENO);
 }
 
-void	n_putint_array(int *arr, size_t	count, char *sep)
+void	n_putint_array_fd(int *arr, int fd, size_t	count, char *sep)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < count)
 	{
-		n_putint(arr[i]);
+		n_putint_fd(arr[i], fd);
 		i++;
 		if (i < count)
-			n_putstr(sep);
+			n_putstr_fd(sep, fd);
 	}
-	n_putchar('\n');
+	n_putchar_fd('\n', fd);
+}
+
+void	n_putint_array(int *arr, size_t	count, char *sep)
+{
+	n_putint_array_fd(arr, STDOUT_FILENO, count, sep);
 }

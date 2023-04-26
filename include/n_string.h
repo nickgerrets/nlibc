@@ -28,11 +28,11 @@ struct s_string_window
 	size_t		length;
 };
 
-// t_string_window	n_string_window_create(char const *start, size_t length);
-// t_string_window	n_string_window_create_p(char const *start, char const *end);
-// t_string_window	n_string_window_create_cstr(char const *cstr);
+t_string_window	n_string_window_create(char const *start, size_t length);
+t_string_window	n_string_window_create_p(char const *start, char const *end);
+t_string_window	n_string_window_create_cstr(char const *cstr);
 
-// char	*n_string_window_dup(t_string_window strwin);
+char	*n_string_window_dup(t_string_window strwin);
 // void	n_string_window_move(t_string_window *strwin, int move);
 
 #endif

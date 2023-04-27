@@ -28,3 +28,9 @@ char	*n_string_window_dup(t_string_window strwin)
 	ret[strwin.length] = '\0';
 	return (ret);
 }
+
+
+ssize_t	n_string_window_write(t_string_window strwin, int fd)
+{
+	return (write(fd, strwin.p, sizeof(char) * strwin.length));
+}

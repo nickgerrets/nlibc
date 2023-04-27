@@ -28,6 +28,13 @@ void *n_vector_at(t_vector *vector, size_t index)
 	return ((t_byte *)vector->mem + index);
 }
 
+void *n_vector_last(t_vector *vector)
+{
+	if (vector->curr_count == 0)
+		return (NULL);
+	return (n_vector_at(vector, vector->curr_count - 1));
+}
+
 // Inserts element at index (if index is within scope)
 void n_vector_insert(t_vector *vector, void *data, size_t index)
 {

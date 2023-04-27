@@ -93,7 +93,7 @@ int	main(void)
 	}
 
 	NL; tester_lists();
-	NL; tester_tree();
+	// NL; tester_tree();
 	NL; tester_tokenizer();
 
 	return (0);

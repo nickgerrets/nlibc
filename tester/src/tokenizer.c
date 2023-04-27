@@ -1,150 +1,193 @@
 #include "tester.h"
 
-enum e_token_rule_type
+#include <stdbool.h>
+
+enum e_token_type
 {
-	TOKEN_RULE_SPLIT,
-	TOKEN_RULE_ENCAPSULATE
+	TOKEN_UNKNOWN,
+	TOKEN_LITERAL,				// 8909 | abc
+	TOKEN_OPERATOR,				// + - / *
+	TOKEN_END_STATEMENT,		// ;
+	TOKEN_LEFT_PARENTHESES,		// (
+	TOKEN_RIGHT_PARENTHESES,	// )
+	TOKEN_DQUOTE,				// "
+	TOKEN_SQUOTE				// '
 };
 
-typedef struct s_token_rule t_token_rule;
-struct s_token_rule
+typedef struct s_token t_token;
+struct s_token
 {
-	enum e_token_rule_type	rule_type;
-	int						token_id;
+	enum e_token_type type;
+	t_string_window window;
+};
+
+static bool is_alnum(char c)
+{
+	return (
+		(c >= '0' && c <= '9') ||
+		(c >= 'a' && c <= 'z') ||
+		(c >= 'A' && c <= 'Z') ||
+		(c == '_'));
+}
+
+static bool is_operator(char c)
+{
+	return (
+		(c == '+') ||
+		(c == '-') ||
+		(c == '*') ||
+		(c == '/'));
+}
+
+enum e_token_type get_token_type(char c)
+{
+	if (is_alnum(c))
+		return (TOKEN_LITERAL);
+	if (is_operator(c))
+		return (TOKEN_OPERATOR);
+	switch (c)
+	{
+		case ';': return (TOKEN_END_STATEMENT);
+		case '(': return (TOKEN_LEFT_PARENTHESES);
+		case ')': return (TOKEN_RIGHT_PARENTHESES);
+		case '\"': return (TOKEN_DQUOTE);
+		case '\'': return (TOKEN_SQUOTE);
+		default: break ;
+	}
+	return (TOKEN_UNKNOWN);
+}
+
+t_token parse_token(char **str, enum e_token_type type)
+{
+	t_token token;
+	char *endp;
+
+	token.type = type;
+	switch (type)
+	{
+		case TOKEN_OPERATOR:
+		case TOKEN_END_STATEMENT:
+		case TOKEN_LEFT_PARENTHESES:
+		case TOKEN_RIGHT_PARENTHESES:
+		case TOKEN_DQUOTE:
+		case TOKEN_SQUOTE:
+			token.window = n_string_window_create(*str, 1);
+			*str += 1;
+			break ;
+		case TOKEN_LITERAL:
+			endp = *str;
+			while (*endp && is_alnum(*endp))
+				++endp;
+			token.window = n_string_window_create_p(*str, endp);
+			*str = endp;
+			break ;
+		default: break ;
+	}
+	return (token);
+}
+
+typedef struct s_ast_node t_ast_node;
+struct s_ast_node
+{
+	enum e_token_type token_type;
+
 	union
 	{
-		struct s_token_rule_split
+		struct s_token_literal // Literal is an end-point
 		{
-			const char	*separators;
-		}	split;
-		struct s_token_rule_encapsulate
+			char *literal;
+		} literal;
+		struct s_token_binary
 		{
-			const char	*left;
-			const char	*right;
-		}	encapsulate;
+			t_ast_node *left;
+			t_ast_node *right;
+			char *op;
+		} binary;
 	};
 };
 
-t_list *token_get_split(char const *str, char const *delimitors)
+static char const *token_type_to_string(enum e_token_type type)
 {
-	t_list	*list;
-	char	**split;
-	size_t	i;
-
-	list = NULL;
-	split = n_split(str, delimitors);
-	if (!split)
-		return (NULL);
-	i = 0;
-	while (split[i])
+	switch (type)
 	{
-		n_list_push_back(&list, n_list_new(split[i]));
-		++i;
+		case TOKEN_OPERATOR: 			return ("OPERATOR");
+		case TOKEN_END_STATEMENT: 		return ("END_STATEMENT");
+		case TOKEN_LEFT_PARENTHESES: 	return ("LEFT_PARENTHESES");
+		case TOKEN_RIGHT_PARENTHESES: 	return ("RIGHT_PARENTHESES");
+		case TOKEN_DQUOTE: 				return ("DQUOTE");
+		case TOKEN_SQUOTE: 				return ("SQUOTE");
+		case TOKEN_LITERAL: 			return ("LITERAL");
+		default: break ;
 	}
-	free(split);
-	return (list);
+	return ("UNKNOWN");
 }
 
-t_list *token_get_encapsulate(char const *str, const char *left, const char *right)
+static void token_list_print(t_list *element)
 {
-	t_list *list;
-	char *l, *r;
-
-	list = NULL;
-	l = n_strfind(str, left);
-	while (l)
+	t_token *token = element->content;
+	if (!token)
 	{
-		r = l;
-		r = n_strfind(r + 1, right);
-		char *f = l;
-		while (f)
-		{
-			f = n_strfind(f + 1, left);
-			if (f && f < r)
-				r = n_strfind(r + 1, right);
-		}
-		if (!r)
-			break ;
-		t_string_window strwin = n_string_window_create_p(l + 1, r);
-		if (strwin.length > 0)
-			n_list_push_back(&list, n_list_new(n_string_window_dup(strwin)));
-		l = n_strfind(r + 1, left);
-	}
-
-	t_list *e;
-	e = list;
-	while (e)
-	{
-		t_list *new = token_get_encapsulate(e->content, left, right);
-		if (new)
-			n_list_push_back(&list, new);
-		e = e->next;
-	}
-
-	return (list);
-}
-
-char *token_next_encapsulated(char **str, const char *left, const char *right)
-{
-	char	*l;
-	char	*r;
-
-	l = n_strfind(*str, left);
-	if (!l)
-		return (NULL);
-	r = l;
-	r = n_strfind(r + 1, right);
-	char *f = l;
-	while (f)
-	{
-		f = n_strfind(f + 1, left);
-		if (f && f < r)
-			r = n_strfind(r + 1, right);
-	}
-	if (!r)
-		return (NULL);
-	*str = r + 1;
-	t_string_window strwin = n_string_window_create_p(l + 1, r);
-	if (strwin.length > 0)
-		return (n_string_window_dup(strwin));
-	return (NULL);
-}
-
-
-static void list_print(t_list *element)
-{
-	printf("(%s)->", (char *)element->content);
-	if (!element->next)
 		printf("NULL");
+		return ;
+	}
+	char *str = n_string_window_dup(token->window);
+	printf("%s(\"%s\") ",
+		token_type_to_string(token->type),
+		str);
+	free(str);
+	if (!element->next)
+		printf("\n");
 }
+
+// "4 + 5;"
+// LITERAL OPERATOR LITERAL ->
+// BINARY_EXPRESSION ->
+// BINARY_EXPRESSION ; ->
+// STATEMENT
+
+// "4 + (1 + 1);"
+// LITERAL OPERATOR ( LITERAL OPERATOR LITERAL ->
+// LITERAL OPERATOR ( BINARY_EXPRESSION ->
+// LITERAL OPERATOR ( BINARY_EXPRESSION ) ->
+// LITERAL OPERATOR EXPRESSION ->
+// BINARY_EXPRESSION ->
+// BINARY_EXPRESSION ; ->
+// STATEMENT
 
 void tester_tokenizer(void)
 {
-	char * str = "hello there  =   how {1 {  2{3 }  }  {2} } you { 1okay? } {1{2{3{4}}}}  ";
-
-	enum e_token_id
-	{
-		TOKEN_ASSIGN
-	};
-
-	t_token_rule rule_split = {.rule_type = TOKEN_RULE_SPLIT, .split.separators = "=", .token_id = TOKEN_ASSIGN};
-	(void)rule_split;
-
-	t_list *split = token_get_split(str, "=");
-
-	// t_list *encap = token_get_encapsulate(str, "{", "}");
-
-	IND; n_list_iterate(split, list_print); printf("\n");
-	// IND; n_list_iterate(encap, list_print); printf("\n");
+	t_stack token_stack = n_stack_new(sizeof(t_token));
+	char * str = "4642 + 77 + (a + b);";
 
 	char *p = str;
-	char *tok = token_next_encapsulated(&p, "{", "}");
+	while (*p)
+	{
+		while (n_strhaschar("\n\t ", *p))
+			++p;
+		t_token token = parse_token(&p, get_token_type(*p));
+		n_stack_push(&token_stack, &token);
+		// Check stack for consequitive tokens that are a rule
+	}
 
-	IND; n_putstr_endl(tok);
+	// IND; n_list_iterate(tokens, token_list_print);
 
-	free(tok);
+	// n_list_free(tokens, free);
 
-	n_list_free(split, free);
+	// t_list *split = token_get_split(str, ";");
+
+	// // t_list *encap = token_get_encapsulate(str, "{", "}");
+
+	// IND; n_list_iterate(split, list_print); printf("\n");
+	// // IND; n_list_iterate(encap, list_print); printf("\n");
+
+	// char *p = str;
+	// char *tok = token_next_encapsulated(&p, "{", "}");
+
+	// if (tok) { IND; n_putstr_endl(tok); }
+
+	// free(tok);
+
+	// n_list_free(split, free);
 	// n_list_free(encap, free);
 
 }

@@ -25,5 +25,7 @@ void		n_vector_add(t_vector *vector, void const *data);
 void		n_vector_free(t_vector *vector);
 void		n_vector_iterate(t_vector *vector, t_data_f func);
 void		n_vector_insert(t_vector *vector, void *data, size_t index);
+void 		*n_vector_at(t_vector *vector, size_t index);
+void 		*n_vector_last(t_vector *vector);
 
 #endif // N_VECTOR_H

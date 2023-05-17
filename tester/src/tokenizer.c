@@ -122,21 +122,19 @@ static char const *token_type_to_string(enum e_token_type type)
 	return ("UNKNOWN");
 }
 
-static void token_list_print(t_list *element)
+static void token_print(void *data)
 {
-	t_token *token = element->content;
+	t_token *token = (t_token *)data;
 	if (!token)
 	{
 		printf("NULL");
 		return ;
 	}
 	char *str = n_string_window_dup(token->window);
-	printf("%s(\"%s\") ",
+	printf("\t%s(\"%s\")\n",
 		token_type_to_string(token->type),
 		str);
 	free(str);
-	if (!element->next)
-		printf("\n");
 }
 
 // "4 + 5;"
@@ -166,8 +164,14 @@ void tester_tokenizer(void)
 			++p;
 		t_token token = parse_token(&p, get_token_type(*p));
 		n_stack_push(&token_stack, &token);
-		// Check stack for consequitive tokens that are a rule
+		// Check stack for consequetive tokens that are a rule
 	}
+	n_vector_iterate(&(token_stack.data), token_print);
+
+	printf("STACK TOP: %s\n", token_type_to_string(((t_token *)n_stack_top(&token_stack))->type) );
+
+	n_stack_free(&token_stack);
+
 
 	// IND; n_list_iterate(tokens, token_list_print);
 

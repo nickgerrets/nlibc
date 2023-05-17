@@ -20,3 +20,8 @@ void	*n_stack_top(t_stack *stack)
 {
 	return (n_vector_last(&(stack->data)));
 }
+
+void	n_stack_free(t_stack *stack)
+{
+	n_vector_free(&(stack->data));
+}

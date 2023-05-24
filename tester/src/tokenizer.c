@@ -57,10 +57,10 @@ enum e_token_type get_token_type(char c)
 	return (TOKEN_UNKNOWN);
 }
 
-t_token parse_token(char **str, enum e_token_type type)
+t_token parse_token(char const ** str, enum e_token_type type)
 {
 	t_token token;
-	char *endp;
+	char const * endp;
 
 	token.type = type;
 	switch (type)
@@ -152,12 +152,23 @@ static void token_print(void *data)
 // BINARY_EXPRESSION ; ->
 // STATEMENT
 
+void debug_print_vector(t_vector * vector)
+{
+	printf("VECTOR_DEBUG_PRINT:\n\tmem: %p\n\tcurr_count: %lu\n\tcurr_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
+		vector->mem,
+		vector->curr_count,
+		vector->curr_size,
+		vector->max_count,
+		vector->max_size
+		);
+}
+
 void tester_tokenizer(void)
 {
 	t_stack token_stack = n_stack_new(sizeof(t_token));
-	char * str = "4642 + 77 + (a + b);";
+	char const * str = "4642 + 77 + (a + b);";
 
-	char *p = str;
+	char const * p = str;
 	while (*p)
 	{
 		while (n_strhaschar("\n\t ", *p))
@@ -168,7 +179,10 @@ void tester_tokenizer(void)
 	}
 	n_vector_iterate(&(token_stack.data), token_print);
 
-	printf("STACK TOP: %s\n", token_type_to_string(((t_token *)n_stack_top(&token_stack))->type) );
+	debug_print_vector(&(token_stack.data));
+
+	t_token * top = n_stack_top(&token_stack);
+	printf("STACK TOP: %s\n", token_type_to_string(top->type));
 
 	n_stack_free(&token_stack);
 

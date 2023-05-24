@@ -1,4 +1,5 @@
 #include "n_vector.h"
+#include <assert.h>
 
 void n_vector_add(t_vector *vector, void const *data)
 {
@@ -23,15 +24,16 @@ void n_vector_iterate(t_vector *vector, t_data_f func)
 
 void *n_vector_at(t_vector *vector, size_t index)
 {
-	if (index > vector->max_count)
-		return (NULL);
-	return ((t_byte *)vector->mem + index);
+	t_byte *data;
+	
+	assert(index < vector->curr_count);
+	data = vector->mem;
+	return (data + (index * vector->element_size));
 }
 
 void *n_vector_last(t_vector *vector)
 {
-	if (vector->curr_count == 0)
-		return (NULL);
+	assert(vector->curr_count != 0);
 	return (n_vector_at(vector, vector->curr_count - 1));
 }
 

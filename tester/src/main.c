@@ -1,8 +1,8 @@
 #include "nlibc.h"
 #include "tester.h"
 
-# include <stdio.h>
-# include <fcntl.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 void	custom_protect_func(void)
 {
@@ -95,6 +95,8 @@ int	main(void)
 	NL; tester_lists();
 	// NL; tester_tree();
 	NL; tester_tokenizer();
+	// NL; tester_stack();
+
 
 	return (0);
 }

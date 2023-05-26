@@ -1,3 +1,9 @@
+# build system
+build/
+
+# clangd cache
+.cache/
+
 .vscode/
 
 # Prerequisites

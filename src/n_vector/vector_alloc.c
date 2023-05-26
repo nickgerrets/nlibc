@@ -1,5 +1,7 @@
 #include "n_vector.h"
 
+#include <string.h>
+
 t_vector n_vector_new(size_t _sizeof)
 {
 	return (n_vector_new_count(_sizeof, 1));
@@ -57,7 +59,7 @@ void n_vector_add_array(t_vector *vector, void const *data, size_t count)
 		vector->max_size = 0;
 		return ;
 	}
-	n_memcpy(((t_byte *)vector->mem) + vector->curr_size, data, vector->element_size * count);
+	memcpy(((t_byte *)vector->mem) + vector->curr_size, data, vector->element_size * count);
 	vector->curr_count += count;
 	vector->curr_size += vector->element_size * count;
 }

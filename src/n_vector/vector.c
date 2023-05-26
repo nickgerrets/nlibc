@@ -1,5 +1,6 @@
 #include "n_vector.h"
 #include <assert.h>
+#include <string.h>
 
 void n_vector_add(t_vector *vector, void const *data)
 {
@@ -44,9 +45,9 @@ void n_vector_insert(t_vector *vector, void *data, size_t index)
 		return ;
 	if (vector->curr_count == vector->max_count)
 		n_vector_resize(vector, vector->curr_count * 2);
-	n_memmove((t_byte *)vector->mem + vector->element_size * (index + 1),
+	memmove((t_byte *)vector->mem + vector->element_size * (index + 1),
 		(t_byte *)vector->mem + vector->element_size * index, (vector->curr_count - index + 1) * vector->element_size);
-	n_memcpy((t_byte *)vector->mem + vector->element_size * index, data, vector->element_size);
+	memcpy((t_byte *)vector->mem + vector->element_size * index, data, vector->element_size);
 	vector->curr_count += 1;
 	vector->curr_size += vector->element_size;
 }

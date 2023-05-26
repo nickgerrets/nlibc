@@ -1,10 +1,8 @@
 #include "n_list.h"
 
-t_list	*n_list_new(void *content)
+t_list* n_list_new(void* content)
 {
-	t_list	*list;
-
-	list = malloc(sizeof(t_list));
+	t_list * list = malloc(sizeof(t_list));
 	if (!list)
 		return (NULL);
 	list->content = content;
@@ -12,35 +10,29 @@ t_list	*n_list_new(void *content)
 	return (list);
 }
 
-void	n_list_free(t_list *head, t_data_f del_func)
+void n_list_free(t_list* head, t_data_f del_func)
 {
-	t_list *del;
-
 	while (head)
 	{
 		if (del_func)
 			del_func(head->content);
-		del = head;
+		t_list * del = head;
 		head = head->next;
 		free(del);
 	}
 }
 
-t_list	*n_list_prev(t_list *head, t_list *element)
+t_list* n_list_prev(t_list const* head, t_list const* element)
 {
-	t_list *prev;
-
-	prev = head;
+	t_list const* prev = head;
 	while (prev && prev->next != element)
 		prev = prev->next;
-	return (prev);
+	return ((t_list*)prev);
 }
 
-void	n_list_delete_element(t_list **head, t_list *element, t_data_f del_func)
+void n_list_delete_element(t_list** head, t_list* element, t_data_f del_func)
 {
-	t_list *prev;
-
-	prev = n_list_prev(*head, element);
+	t_list* prev = n_list_prev(*head, element);
 	if (!prev)
 		return ;
 	prev->next = prev->next->next;

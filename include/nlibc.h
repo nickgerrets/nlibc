@@ -1,7 +1,6 @@
 #ifndef NLIBC_H
 # define NLIBC_H
 
-# include "n_cstr.h"
 # include "n_protect.h"
 # include "n_vector.h"
 # include "n_string.h"

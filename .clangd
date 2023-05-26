@@ -1,2 +1,2 @@
 CompileFlags:
-	Add: [ -Wall, -Wextra, -Wpedantic, -Wconversion, -I../include/ ]
+	Add: [ -Wall, -Wextra, -Wpedantic, -Wconversion, --include-directory=../../include, --include-directory=../include ]

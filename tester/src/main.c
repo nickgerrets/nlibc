@@ -1,8 +1,14 @@
+#include "n_vector.h"
 #include "nlibc.h"
 #include "tester.h"
 
 #include <stdio.h>
 #include <fcntl.h>
+
+int vector_compare_int(void * a, void * b)
+{
+	return ( *(int *)a - *(int *)b );
+}
 
 void	custom_protect_func(void)
 {
@@ -87,6 +93,14 @@ int	main(void)
 		n_putstr_endl("n_vector_iterate() with put digit:");
 		IND; n_vector_iterate(&vector, put_digit_data_f); NL;
 		printf("vector count / max_count: %lu/%lu\n", vector.curr_count, vector.max_count);
+
+
+		n_putstr_endl("n_vector_search() for '5':");
+		void * found = n_vector_search(&vector, &(int){5}, vector_compare_int);
+		if (!found)
+			printf("5 not found!\n");
+		else
+			printf("%d was found\n", *(int *)found);
 
 		printf("n_vector_free()\n");
 		n_vector_free(&vector);

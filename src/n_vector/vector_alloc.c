@@ -11,7 +11,7 @@ t_vector n_vector_new_count(size_t _sizeof, size_t count)
 {
 	t_vector vector;
 
-	vector.element_size = _sizeof;
+	vector.type_size = _sizeof;
 	vector.curr_count = 0;
 	vector.max_count = count;
 	vector.max_size = _sizeof * count;
@@ -33,7 +33,7 @@ void n_vector_resize(t_vector *vector, size_t new_count)
 	count = new_count;
 	if (vector->curr_count < new_count)
 		count = vector->curr_count;
-	new_vector = n_vector_new_count(vector->element_size, new_count);
+	new_vector = n_vector_new_count(vector->type_size, new_count);
 	n_vector_add_array(&new_vector, vector->mem, count);
 	n_vector_free(vector);
 	*vector = new_vector;
@@ -59,9 +59,9 @@ void n_vector_add_array(t_vector *vector, void const *data, size_t count)
 		vector->max_size = 0;
 		return ;
 	}
-	memcpy(((t_byte *)vector->mem) + vector->curr_size, data, vector->element_size * count);
+	memcpy(((t_byte *)vector->mem) + vector->curr_size, data, vector->type_size * count);
 	vector->curr_count += count;
-	vector->curr_size += vector->element_size * count;
+	vector->curr_size += vector->type_size * count;
 }
 
 void n_vector_free(t_vector *vector)

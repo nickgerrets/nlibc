@@ -22,7 +22,6 @@ char const	*n_string_cstr(t_string *string);
 ssize_t		n_string_write(t_string *string, int fd);
 void		n_string_free(t_string *string);
 
-// TODO: implementation
 typedef struct s_string_window t_string_window;
 struct s_string_window
 {

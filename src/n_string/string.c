@@ -44,7 +44,7 @@ char const	*n_string_cstr(t_string *string)
 {
 	n_vector_add(&(string->strvec), &(char){'\0'});
 	string->strvec.curr_count -= 1;
-	string->strvec.curr_size -= string->strvec.element_size;
+	string->strvec.curr_size -= string->strvec.type_size;
 	return (string->strvec.mem);
 }
 

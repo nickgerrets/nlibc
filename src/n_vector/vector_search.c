@@ -1,6 +1,6 @@
 #include "n_vector.h"
 
-void *n_vector_search(t_vector * vector, void * search, t_compare_data_f compare_f)
+size_t n_vector_search(t_vector const * vector, void const * search, t_compare_data_f compare_f)
 {
 	size_t index;
 	void * element;
@@ -10,9 +10,9 @@ void *n_vector_search(t_vector * vector, void * search, t_compare_data_f compare
 	{
 		element = n_vector_at(vector, index);
  		if (compare_f(search, element) == 0)
-			return (element);
+			return (index);
 		++index;
 	}
-	return (NULL);
+	return (index);
 }
 

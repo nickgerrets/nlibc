@@ -19,23 +19,53 @@ void n_vector_iterate(t_vector *vector, t_data_f func)
 	while (i < vector->curr_size)
 	{
 		func((void *)(data + i));
-		i += vector->element_size;
+		i += vector->type_size;
 	}
 }
 
-void *n_vector_at(t_vector *vector, size_t index)
+void * n_vector_at(t_vector const * vector, size_t index)
 {
 	t_byte *data;
 	
 	assert(index < vector->curr_count);
 	data = vector->mem;
-	return (data + (index * vector->element_size));
+	return (data + (index * vector->type_size));
 }
 
-void *n_vector_last(t_vector *vector)
+void * n_vector_last(t_vector const * vector)
 {
 	assert(vector->curr_count != 0);
 	return (n_vector_at(vector, vector->curr_count - 1));
+}
+
+size_t n_vector_count(t_vector const * vector)
+{
+	return (vector->curr_count);
+}
+
+size_t n_vector_max_count(t_vector const * vector)
+{
+	return (vector->max_count);
+}
+
+size_t n_vector_size(t_vector const * vector)
+{
+	return (vector->curr_size);
+}
+
+size_t n_vector_max_size(t_vector const * vector)
+{
+	return (vector->max_size);
+}
+
+size_t n_vector_type_size(t_vector const * vector)
+{
+	return (vector->type_size);
+}
+
+void * n_vector_data(t_vector const * vector)
+{
+	return (vector->mem);
 }
 
 // Inserts element at index (if index is within scope)
@@ -45,9 +75,9 @@ void n_vector_insert(t_vector *vector, void *data, size_t index)
 		return ;
 	if (vector->curr_count == vector->max_count)
 		n_vector_resize(vector, vector->curr_count * 2);
-	memmove((t_byte *)vector->mem + vector->element_size * (index + 1),
-		(t_byte *)vector->mem + vector->element_size * index, (vector->curr_count - index + 1) * vector->element_size);
-	memcpy((t_byte *)vector->mem + vector->element_size * index, data, vector->element_size);
+	memmove((t_byte *)vector->mem + vector->type_size * (index + 1),
+		(t_byte *)vector->mem + vector->type_size * index, (vector->curr_count - index + 1) * vector->type_size);
+	memcpy((t_byte *)vector->mem + vector->type_size * index, data, vector->type_size);
 	vector->curr_count += 1;
-	vector->curr_size += vector->element_size;
+	vector->curr_size += vector->type_size;
 }

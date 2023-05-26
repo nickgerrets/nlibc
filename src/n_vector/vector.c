@@ -7,7 +7,7 @@ void n_vector_add(t_vector *vector, void const *data)
 	n_vector_add_array(vector, data, 1);
 }
 
-void n_vector_iterate(t_vector *vector, t_data_f func)
+void n_vector_iterate(t_vector* vector, t_data_f func)
 {
 	t_byte	*data;
 	size_t	i;
@@ -23,7 +23,7 @@ void n_vector_iterate(t_vector *vector, t_data_f func)
 	}
 }
 
-void * n_vector_at(t_vector const * vector, size_t index)
+void* n_vector_at(t_vector const* vector, size_t index)
 {
 	t_byte *data;
 	
@@ -32,44 +32,44 @@ void * n_vector_at(t_vector const * vector, size_t index)
 	return (data + (index * vector->type_size));
 }
 
-void * n_vector_last(t_vector const * vector)
+void* n_vector_last(t_vector const* vector)
 {
 	assert(vector->curr_count != 0);
 	return (n_vector_at(vector, vector->curr_count - 1));
 }
 
-size_t n_vector_count(t_vector const * vector)
+size_t n_vector_count(t_vector const* vector)
 {
 	return (vector->curr_count);
 }
 
-size_t n_vector_max_count(t_vector const * vector)
+size_t n_vector_max_count(t_vector const* vector)
 {
 	return (vector->max_count);
 }
 
-size_t n_vector_size(t_vector const * vector)
+size_t n_vector_size(t_vector const* vector)
 {
 	return (vector->curr_size);
 }
 
-size_t n_vector_max_size(t_vector const * vector)
+size_t n_vector_max_size(t_vector const* vector)
 {
 	return (vector->max_size);
 }
 
-size_t n_vector_type_size(t_vector const * vector)
+size_t n_vector_type_size(t_vector const* vector)
 {
 	return (vector->type_size);
 }
 
-void * n_vector_data(t_vector const * vector)
+void* n_vector_data(t_vector const* vector)
 {
 	return (vector->mem);
 }
 
 // Inserts element at index (if index is within scope)
-void n_vector_insert(t_vector *vector, void *data, size_t index)
+void n_vector_insert(t_vector* vector, void* data, size_t index)
 {
 	if (index >= vector->max_count)
 		return ;

@@ -1,16 +1,14 @@
 #include "n_list.h"
 
-t_list	*n_list_last(t_list *list)
+t_list* n_list_last(t_list const* list)
 {
 	while (list->next)
 		list = list->next;
 	return (list);
 }
 
-t_list	*n_list_push_front(t_list **dst_head, t_list *src_head)
+t_list* n_list_push_front(t_list** dst_head, t_list* src_head)
 {
-	t_list	*head;
-
 	if (!src_head)
 		return (NULL);
 	if (!*dst_head)
@@ -18,14 +16,14 @@ t_list	*n_list_push_front(t_list **dst_head, t_list *src_head)
 		*dst_head = src_head;
 		return (src_head);
 	}
-	head = src_head;
+	t_list* head = src_head;
 	src_head = n_list_last(src_head);
 	src_head->next = *dst_head;
 	*dst_head = head;
 	return (src_head);
 }
 
-t_list	*n_list_push_back(t_list **dst_head, t_list *src_head)
+t_list* n_list_push_back(t_list** dst_head, t_list* src_head)
 {
 	if (!*dst_head)
 	{
@@ -36,21 +34,17 @@ t_list	*n_list_push_back(t_list **dst_head, t_list *src_head)
 	return (src_head);
 }
 
-t_list	*n_list_insert(t_list *prev, t_list *new)
+t_list* n_list_insert(t_list* prev, t_list* new)
 {
-	t_list *next;
-
-	next = prev->next;
+	t_list* next = prev->next;
 	prev->next = new;
 	new->next = next;
 	return (new);
 }
 
-size_t	n_list_count(t_list *list)
+size_t n_list_count(t_list const* list)
 {
-	size_t count;
-
-	count = 0;
+	size_t count = 0;
 	while (list->next)
 	{
 		list = list->next;
@@ -59,7 +53,7 @@ size_t	n_list_count(t_list *list)
 	return (count);
 }
 
-void	n_list_iterate(t_list *head, t_list_f func)
+void n_list_iterate(t_list* head, t_list_f func)
 {
 	while (head)
 	{

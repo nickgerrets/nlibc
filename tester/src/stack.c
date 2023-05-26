@@ -3,10 +3,10 @@
 
 void print_stack(t_stack *stack)
 {
-	printf("STACK:\n\tcurr_count: %lu\n\tcurr_size: %lu\n\telement_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
+	printf("STACK:\n\tcurr_count: %lu\n\tcurr_size: %lu\n\ttype_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
 		stack->data.curr_count,
 		stack->data.curr_size,
-		stack->data.element_size,
+		stack->data.type_size,
 		stack->data.max_count,
 		stack->data.max_size
 		);

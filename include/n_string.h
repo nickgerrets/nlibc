@@ -1,10 +1,10 @@
 #ifndef N_STRING_H
 # define N_STRING_H
 
-# include "n_cstr.h"
 # include "n_vector.h"
 
 # include <unistd.h>
+# include <string.h>
 
 typedef struct s_string t_string;
 struct s_string
@@ -22,20 +22,19 @@ char const	*n_string_cstr(t_string *string);
 ssize_t		n_string_write(t_string *string, int fd);
 void		n_string_free(t_string *string);
 
-// TODO: implementation
 typedef struct s_string_window t_string_window;
 struct s_string_window
 {
-	char const	*p;
+	char const*	p;
 	size_t		length;
 };
 
-t_string_window	n_string_window_create(char const *start, size_t length);
-t_string_window	n_string_window_create_p(char const *start, char const *end);
-t_string_window	n_string_window_create_cstr(char const *cstr);
+t_string_window	n_string_window_create(char const* start, size_t length);
+t_string_window	n_string_window_create_p(char const* start, char const* end);
+t_string_window	n_string_window_create_cstr(char const* cstr);
 
-char	*n_string_window_dup(t_string_window strwin);
-ssize_t	n_string_window_write(t_string_window strwin, int fd);
+char	*n_string_window_dup(t_string_window const strwin);
+ssize_t	n_string_window_write(t_string_window const strwin, int fd);
 // void	n_string_window_move(t_string_window *strwin, int move);
 
 #endif

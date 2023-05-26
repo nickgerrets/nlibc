@@ -1,6 +1,6 @@
 #include "n_list.h"
 
-t_list* n_list_last(t_list const* list)
+t_list* n_list_last(t_list* list)
 {
 	while (list->next)
 		list = list->next;

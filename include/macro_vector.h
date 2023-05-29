@@ -1,6 +1,8 @@
 #ifndef MACROVECTOR_H
 # define MACROVECTOR_H
 
+# include <assert.h>
+
 # define vector_t(T)				\
 	struct s_vector_##T				\
 	{								\
@@ -31,6 +33,11 @@
 		(V)->count += 1;																\
 	} while (0)
 
+# define vector_pop_back(V) do {		\
+		if ((V)->count > 0)							\
+			(V)->count -= 1;							\
+}
 
+# define vector_at(V, index) ((V)->mem + index)
 
 #endif // MACROVECTOR_H

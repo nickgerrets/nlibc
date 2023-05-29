@@ -27,6 +27,8 @@
 
 void test_vector(void);
 
+void test_macrovector(void);
+
 // void tester_strings(void);
 // void tester_lists(void);
 // void tester_tree(void);

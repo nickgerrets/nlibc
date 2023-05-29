@@ -20,6 +20,9 @@ add_library(${PROJECT_NAME}
 	src/n_vector/vector_alloc.c
 	src/n_vector/vector.c
 	src/n_vector/vector_search.c
+
+	src/macro_vector/macro_vector.c
+
 )
 
 add_library(nlibc::nlibc ALIAS ${PROJECT_NAME})

@@ -11,5 +11,7 @@ int	main(void)
 
 	test_vector();
 
+	test_macrovector();
+
 	return (0);
 }

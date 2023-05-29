@@ -6,6 +6,7 @@
 
 # include "n_common.h"
 
+
 typedef struct s_vector
 {
 	void	*mem;

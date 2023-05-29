@@ -17,7 +17,8 @@ void test_macrovector(void)
 	int* x = vector_at(&vector, 0);
 	TEST("vector_at()", *x == 5);
 
-	
+	vector_pop_back(&vector);
+	TEST("vector_pop_back()", vector.count == 0);
 
 	
 }

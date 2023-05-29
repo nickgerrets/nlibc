@@ -36,7 +36,7 @@
 # define vector_pop_back(V) do {		\
 		if ((V)->count > 0)							\
 			(V)->count -= 1;							\
-}
+} while (0)
 
 # define vector_at(V, index) ((V)->mem + index)
 

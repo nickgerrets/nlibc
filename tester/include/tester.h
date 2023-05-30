@@ -29,5 +29,6 @@ void test_vector(void);
 void test_hashmap(void);
 void test_lists(void);
 void test_macrovector(void);
+void test_buffer(void);
 
 #endif // TESTER_H

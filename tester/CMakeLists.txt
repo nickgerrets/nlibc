@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME}
 	src/hashmap.c
 	src/macro_vector.c
 	src/lists.c
+	src/buffer.c
 )
 
 target_include_directories( ${PROJECT_NAME}

@@ -1,32 +1,31 @@
 #include "tester.h"
+#include "n_buffer.h"
 
-void tester_buffer(void)
+#include <fcntl.h>
+
+void test_buffer(void)
 {
+	LOG("BUFFER TESTS")
 
-	NL; {
-		printf("n_buffer_create() size 4096\n");
-		t_buffer buffer = n_buffer_create(4096);
+	buffer_t buffer = n_buffer_create(4096);
+	TEST("n_buffer_create()", buffer.mem[0] == 0 && buffer.mem[buffer.max_size - 1] == 0);
 
-		printf("open() Makefile\n");
-		int fd = open("Makefile", O_RDONLY);
-		if (fd < 0)
-			printf("can't open file\n");
-		
-		printf("n_buffer_read() 256 bytes from file\n");
-		n_buffer_read(&buffer, fd, 256);
+	char const str[] = "Hello there!";
+	n_buffer_add(&buffer, str, sizeof(str) - 1);
+	TEST("n_buffer_add()", memcmp(buffer.mem, str, sizeof(str) - 1) == 0);
 
-		printf("n_buffer_add() '[END]' to buffer\n");
-		n_buffer_add(&buffer, "[END]", sizeof(char) * 5);
+	int fd = open("../tester/testfile.txt", O_RDONLY);
+	if (fd < 0)
+		dprintf(STDERR_FILENO, "Couldn't open test file!\n");
 
-		printf("n_buffer_read() another 256 bytes from file\n");
-		n_buffer_read(&buffer, fd, 256);
+	char const compare[] = "i_am_a_test_string";
+	ssize_t read_size = n_buffer_read(&buffer, fd, sizeof(compare) - 1);
+	TEST("n_buffer_read()",
+		read_size == sizeof(compare) - 1
+		&& memcmp(buffer.mem + sizeof(str) - 1, compare, sizeof(compare) - 1) == 0
+	);
+	close(fd);
 
-		printf("n_buffer_write() to STDOUT:\n");
-		n_buffer_write(buffer, STDOUT_FILENO); NL;
-
-		n_buffer_free(&buffer);
-
-		close(fd);
-	}
-	
+	n_buffer_free(&buffer);
+	TEST("n_buffer_free()", buffer.mem == NULL);
 }

@@ -10,6 +10,7 @@ int	main(void)
 	// NL; tester_stack();
 
 	test_vector();
+	test_hashmap();
 
 	return (0);
 }

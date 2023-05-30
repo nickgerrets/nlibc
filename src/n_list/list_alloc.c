@@ -1,6 +1,6 @@
 #include "n_list.h"
 
-t_list* n_list_new(void* content)
+t_list* n_list_create(void* content)
 {
 	t_list * list = malloc(sizeof(t_list));
 	if (!list)

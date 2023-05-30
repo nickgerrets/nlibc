@@ -12,9 +12,9 @@ struct s_string
 	t_vector	strvec;
 };
 
-t_string	n_string_new(void);
-t_string	n_string_new_cstr(char const *cstr);
-t_string	n_string_new_count(size_t count);
+t_string	n_string_create(void);
+t_string	n_string_create_cstr(char const *cstr);
+t_string	n_string_create_count(size_t count);
 void		n_string_resize(t_string *string, size_t new_count);
 void		n_string_add_cstr(t_string *string, char const *cstr);
 void		n_string_add_char(t_string *string, char c);

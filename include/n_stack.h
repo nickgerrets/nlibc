@@ -9,7 +9,7 @@ struct s_stack
 	t_vector data;
 };
 
-t_stack	n_stack_new(size_t _sizeof);
+t_stack	n_stack_create(size_t _sizeof);
 void	n_stack_push(t_stack *stack, void *data);
 void	n_stack_pop(t_stack *stack);
 void	*n_stack_top(t_stack *stack);

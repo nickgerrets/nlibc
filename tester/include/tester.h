@@ -26,13 +26,8 @@
 
 
 void test_vector(void);
-
 void test_hashmap(void);
-
-// void tester_strings(void);
-// void tester_lists(void);
-// void tester_tree(void);
-// void tester_tokenizer(void);
-// void tester_stack(void);
+void test_lists(void);
+void test_macrovector(void);
 
 #endif // TESTER_H

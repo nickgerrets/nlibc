@@ -74,7 +74,7 @@ void tester_strings(void)
 		const char* string1 = "This is a string that's going to be added to a buffer.";
 		const char* string2 = " Paste this string behind there, will ya.";
 
-		t_buffer buffer = n_buffer_new(1024);
+		t_buffer buffer = n_buffer_create(1024);
 
 		n_putstr_endl("Creating a buffer and adding strings to it:");
 		IND; n_putstr("String1: "); n_putstr_endl(string1);
@@ -92,7 +92,7 @@ void tester_strings(void)
 
 	NL; {
 		n_putstr_endl("Creating a dynamic string");
-		t_string string = n_string_new_cstr("Hello there how are you?");
+		t_string string = n_string_create_cstr("Hello there how are you?");
 		n_string_add_cstr(&string, " I am doing very well!");
 		n_string_add_cstr(&string, " WOW this is so cool!");
 

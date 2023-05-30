@@ -45,7 +45,7 @@ t_list* n_list_insert(t_list* prev, t_list* new)
 size_t n_list_count(t_list const* list)
 {
 	size_t count = 0;
-	while (list->next)
+	while (list)
 	{
 		list = list->next;
 		++count;

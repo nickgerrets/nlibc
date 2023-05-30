@@ -12,7 +12,6 @@ void print_stack(t_stack *stack)
 		);
 }
 
-
 void tester_stack(void)
 {
 	struct element {

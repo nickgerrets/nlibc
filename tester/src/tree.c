@@ -14,24 +14,24 @@ void tester_tree(void)
 {
 	NL; {
 		char *str = "HEAD";
-		t_tree_node* tree = n_tree_node_new(n_memdup(str, 1 + sizeof(char) * n_strlen(str)));
+		t_tree_node* tree = n_tree_node_create(n_memdup(str, 1 + sizeof(char) * n_strlen(str)));
 
 		str = "\tCHILD1";
 		t_tree_node* child = n_tree_node_add_branch_back( tree,
-			n_tree_node_new(
+			n_tree_node_create(
 				n_memdup(str, 1 + sizeof(char) * n_strlen(str))
 			)
 		);
 		{
 			str = "\t\tCHILD1";
 			n_tree_node_add_branch_back( child,
-				n_tree_node_new(
+				n_tree_node_create(
 					n_memdup(str, 1 + sizeof(char) * n_strlen(str))
 				)
 			);
 			str = "\t\tCHILD2";
 			n_tree_node_add_branch_back( child,
-				n_tree_node_new(
+				n_tree_node_create(
 					n_memdup(str, 1 + sizeof(char) * n_strlen(str))
 				)
 			);
@@ -39,14 +39,14 @@ void tester_tree(void)
 
 		str = "\tCHILD2";
 		n_tree_node_add_branch_back( tree,
-			n_tree_node_new(
+			n_tree_node_create(
 				n_memdup(str, 1 + sizeof(char) * n_strlen(str))
 			)
 		);
 
 		str = "\tCHILD3";
 		n_tree_node_add_branch_back( tree,
-			n_tree_node_new(
+			n_tree_node_create(
 				n_memdup(str, 1 + sizeof(char) * n_strlen(str))
 			)
 		);

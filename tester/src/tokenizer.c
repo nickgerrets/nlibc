@@ -154,9 +154,9 @@ static void token_print(void *data)
 
 void debug_print_vector(t_vector * vector)
 {
-	printf("VECTOR_DEBUG_PRINT:\n\tmem: %p\n\tcurr_count: %lu\n\tcurr_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
+	printf("VECTOR_DEBUG_PRINT:\n\tmem: %p\n\tcount: %lu\n\tcurr_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
 		vector->mem,
-		vector->curr_count,
+		vector->count,
 		vector->curr_size,
 		vector->max_count,
 		vector->max_size
@@ -165,7 +165,7 @@ void debug_print_vector(t_vector * vector)
 
 void tester_tokenizer(void)
 {
-	t_stack token_stack = n_stack_new(sizeof(t_token));
+	t_stack token_stack = n_stack_create(sizeof(t_token));
 	char const * str = "4642 + 77 + (a + b);";
 
 	char const * p = str;

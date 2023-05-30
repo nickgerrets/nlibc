@@ -4,8 +4,8 @@ void tester_buffer(void)
 {
 
 	NL; {
-		printf("n_buffer_new() size 4096\n");
-		t_buffer buffer = n_buffer_new(4096);
+		printf("n_buffer_create() size 4096\n");
+		t_buffer buffer = n_buffer_create(4096);
 
 		printf("open() Makefile\n");
 		int fd = open("Makefile", O_RDONLY);

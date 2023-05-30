@@ -1,29 +1,28 @@
-#ifndef MACROVECTOR_H
-# define MACROVECTOR_H
+#ifndef MACRO_VECTOR_H
+# define MACRO_VECTOR_H
 
-# include <assert.h>
-
-# define vector_t(T)				\
-	struct s_vector_##T				\
+# define macro_vector_t(T)			\
+	struct							\
 	{								\
 		T*		mem;				\
 		size_t	count;				\
 		size_t	capacity;			\
 	}
 
-# define vector_init(V) do {								\
+# define macro_vector_init(V) do {							\
 		(V)->mem = malloc(sizeof(typeof(*(V)->mem)));		\
 		(V)->count = 0;										\
 		(V)->capacity = 1;									\
 	} while (0)
 
-# define vector_create(T) (struct s_vector_##T) {					\
-		.mem = malloc(sizeof(T)),							\
-		.count = 0,											\
-		.capacity = 1										\
-	}
+# define macro_vector_create(T) {	malloc(sizeof(T)), 0, 1 }
 
-# define vector_push_back(V, value) do {												\
+# define macro_vector_free(V) do {	\
+		free((V)->mem);				\
+		(V)->mem = NULL;			\
+	} while (0)
+
+# define macro_vector_push_back(V, value) do {											\
 		if ((V)->count >= (V)->capacity)												\
 		{																				\
 			(V)->capacity = (V)->capacity * 2;											\
@@ -33,11 +32,11 @@
 		(V)->count += 1;																\
 	} while (0)
 
-# define vector_pop_back(V) do {		\
-		if ((V)->count > 0)							\
-			(V)->count -= 1;							\
-} while (0)
+# define macro_vector_pop_back(V) do {	\
+		if ((V)->count > 0)				\
+			(V)->count -= 1;			\
+	} while (0)
 
-# define vector_at(V, index) ((V)->mem + index)
+# define macro_vector_at(V, index) ((V)->mem + index)
 
-#endif // MACROVECTOR_H
+#endif // MACRO_VECTOR_H

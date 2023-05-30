@@ -14,7 +14,7 @@ typedef struct	s_buffer
 }	t_buffer;
 
 // buffer.c
-t_buffer	n_buffer_new(size_t size);
+t_buffer	n_buffer_create(size_t size);
 size_t		n_buffer_add(t_buffer * buffer, void const * data, size_t data_size);
 ssize_t		n_buffer_write(t_buffer const * buffer, int fd);
 ssize_t		n_buffer_read(t_buffer * buffer, int fd, size_t size);

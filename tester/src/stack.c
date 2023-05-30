@@ -3,8 +3,8 @@
 
 void print_stack(t_stack *stack)
 {
-	printf("STACK:\n\tcurr_count: %lu\n\tcurr_size: %lu\n\ttype_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
-		stack->data.curr_count,
+	printf("STACK:\n\tcount: %lu\n\tcurr_size: %lu\n\ttype_size: %lu\n\tmax_count: %lu\n\tmax_size: %lu\n",
+		stack->data.count,
 		stack->data.curr_size,
 		stack->data.type_size,
 		stack->data.max_count,
@@ -21,8 +21,8 @@ void tester_stack(void)
 	};
 	
 	NL; {
-		n_putstr_endl("Creating a stack with n_stack_new():");
-		t_stack stack = n_stack_new(sizeof(struct element));
+		n_putstr_endl("Creating a stack with n_stack_create():");
+		t_stack stack = n_stack_create(sizeof(struct element));
 
 		struct element e = {
 			.n = 1,

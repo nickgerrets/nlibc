@@ -3,6 +3,7 @@ project(test)
 add_executable(${PROJECT_NAME}
 	src/main.c
 	src/vector.c
+	src/hashmap.c
 	src/macro_vector.c
 	src/lists.c
 )

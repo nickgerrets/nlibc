@@ -26,6 +26,7 @@
 
 
 void test_vector(void);
+void test_hashmap(void);
 void test_lists(void);
 void test_macrovector(void);
 

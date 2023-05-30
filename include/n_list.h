@@ -15,7 +15,7 @@ struct s_list
 typedef void (*t_list_f)(t_list *);
 
 // list_alloc.
-t_list* n_list_new(void* content);
+t_list* n_list_create(void* content);
 void	n_list_free(t_list* head, t_data_f del_func /* can be NULL*/ );
 t_list* n_list_prev(t_list const* head, t_list const* element);
 void	n_list_delete_element(t_list** head, t_list* element, t_data_f del_func);

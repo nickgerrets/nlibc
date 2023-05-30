@@ -9,7 +9,9 @@ int	main(void)
 	// NL; tester_tokenizer();
 	// NL; tester_stack();
 
-	test_vector();
+	test_lists(); NL;
+	test_vector(); NL;
+	test_macrovector(); NL;
 
 	return (0);
 }

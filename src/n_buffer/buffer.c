@@ -6,7 +6,7 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 15:00:08 by ngerrets      #+#    #+#                 */
-/*   Updated: 2023/05/26 16:13:19 by ngerrets      ########   odam.nl         */
+/*   Updated: 2023/05/30 12:01:50 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <assert.h>
 
-t_buffer	n_buffer_new(size_t size)
+t_buffer	n_buffer_create(size_t size)
 {
 	return (t_buffer) {
 		.mem = calloc(size, sizeof(t_byte)),

@@ -6,7 +6,7 @@ size_t n_vector_search(t_vector const * vector, void const * search, t_compare_d
 	void * element;
 
 	index = 0;
-	while (index < vector->curr_count)
+	while (index < vector->count)
 	{
 		element = n_vector_at(vector, index);
  		if (compare_f(search, element) == 0)

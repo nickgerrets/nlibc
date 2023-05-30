@@ -1,7 +1,5 @@
 #include "tester.h"
 
-#include <stdio.h>
-
 static void list_print(t_list *element)
 {
 	printf("(%d)->", *(int *)element->content);
@@ -9,23 +7,35 @@ static void list_print(t_list *element)
 		printf("NULL");
 }
 
-void tester_lists(void)
+void test_lists(void)
 {
-	NL; {
-		int _array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
-		t_list *list;
+	LOG("LIST TESTS");
 
-		list = NULL;
-		// t_vector int_vec = n_vector_new(sizeof(int));
-		// n_vector_add_array(&int_vec, _array, sizeof(_array) / sizeof(int));
+	struct s_item { int x, y; };
 
-		n_putstr_endl("n_list_push_front() an entire array");
-		for (size_t i = 0; i < sizeof(_array) / sizeof(int); ++i)
-			n_list_push_front(&list, n_list_new(_array + i));
-		n_putstr_endl("n_list_iterate() to print it out:");
-		IND; n_list_iterate(list, list_print); printf("\n");
+	struct s_item item1 = {1, 5};
+	t_list* list = n_list_create(&item1);
+	TEST("n_list_create()", list != NULL && ((struct s_item*)list->content)->x == 1);
 
-		n_list_free(list, NULL);
+	struct s_item item2 = {2, 5};
+	n_list_push_front(&list, n_list_create(&item2));
+	TEST("n_list_push_front()", ((struct s_item*)list->content)->x == 2);
 
-	}
+	struct s_item item3 = {3, 1};
+	n_list_push_back(&list, n_list_create(&item3));
+	TEST("n_list_push_back()", ((struct s_item*)list->next->next->content)->x == 3);
+
+	TEST("n_list_count()", n_list_count(list) == 3);
+
+	struct s_item item4 = {4, 1};
+	n_list_insert(list, n_list_create(&item4));
+	TEST("n_list_insert()",
+		((struct s_item*)list->content)->x == 2
+		&& ((struct s_item*)list->next->content)->x == 4
+		&& ((struct s_item*)list->next->next->content)->x == 1
+	);
+
+	TEST("n_list_last()", ((struct s_item*)n_list_last(list)->content)->x == 3);
+
+	n_list_free(list, NULL);
 }

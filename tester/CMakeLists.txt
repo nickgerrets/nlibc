@@ -3,6 +3,8 @@ project(test)
 add_executable(${PROJECT_NAME}
 	src/main.c
 	src/vector.c
+	src/macro_vector.c
+	src/lists.c
 )
 
 target_include_directories( ${PROJECT_NAME}

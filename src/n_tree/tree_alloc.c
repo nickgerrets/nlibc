@@ -1,6 +1,6 @@
 #include "n_tree.h"
 
-t_tree_node *n_tree_node_new(void *content)
+t_tree_node *n_tree_node_create(void *content)
 {
 	t_tree_node *node;
 
@@ -14,12 +14,12 @@ t_tree_node *n_tree_node_new(void *content)
 
 t_tree_node *n_tree_node_add_branch_front(t_tree_node *node, t_tree_node *branch)
 {
-	return (n_list_push_front(&(node->branches), n_list_new(branch))->content);
+	return (n_list_push_front(&(node->branches), n_list_create(branch))->content);
 }
 
 t_tree_node *n_tree_node_add_branch_back(t_tree_node *node, t_tree_node *branch)
 {
-	return (n_list_push_back(&(node->branches), n_list_new(branch))->content);
+	return (n_list_push_back(&(node->branches), n_list_create(branch))->content);
 }
 
 void	n_tree_iterate(t_tree_node *head, t_data_f func)

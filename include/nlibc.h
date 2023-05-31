@@ -5,7 +5,6 @@
 # include "n_vector.h"
 # include "n_string.h"
 # include "n_list.h"
-# include "n_tree.h"
 # include "n_stack.h"
 
 #endif

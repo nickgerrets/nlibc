@@ -5,22 +5,23 @@
 # include <stddef.h>
 
 # include "n_common.h"
+# include "n_allocator.h"
 
 # define N_VECTOR_GROWTH_FACTOR 2
 
 typedef struct s_vector
 {
-	void	*mem;
-	void* (*allocator)(size_t);
-	size_t	max_count;
-	size_t	count;
-	size_t	type_size;
+	void		*mem;
+	size_t		max_count;
+	size_t		count;
+	size_t		type_size;
+	allocator_t	allocator;
 }	t_vector;
 
 typedef int (*t_compare_data_f)(void const * a, void const * b);
 
-t_vector	n_vector_create(size_t _sizeof, void* (*allocator)(size_t));
-t_vector	n_vector_create_count(size_t _sizeof, size_t count, void* (*allocator)(size_t));
+t_vector	n_vector_create(size_t _sizeof, allocator_t const* allocator);
+t_vector	n_vector_create_count(size_t _sizeof, size_t count, allocator_t const* allocator);
 void		n_vector_resize(t_vector *vector, size_t new_count);
 void		n_vector_push_back_array(t_vector *vector, void const *data, size_t count);
 void		n_vector_push_back(t_vector *vector, void const *data);

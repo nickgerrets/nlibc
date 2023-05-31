@@ -22,6 +22,8 @@ add_library(${PROJECT_NAME}
 	src/n_vector/vector_search.c
 
 	src/n_hashmap/hashmap.c
+
+	src/n_allocator/allocator.c
 )
 
 add_library(nlibc::nlibc ALIAS ${PROJECT_NAME})

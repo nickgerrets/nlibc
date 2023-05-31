@@ -3,39 +3,35 @@
 #include <string.h>
 #include <assert.h>
 
-t_vector n_vector_create(size_t _sizeof, void* (*allocator)(size_t))
+t_vector n_vector_create(size_t _sizeof, allocator_t const* allocator)
 {
 	return (n_vector_create_count(_sizeof, 1, allocator));
 }
 
-t_vector n_vector_create_count(size_t _sizeof, size_t count, void* (*allocator)(size_t))
+t_vector n_vector_create_count(size_t _sizeof, size_t count, allocator_t const* allocator)
 {
 	assert(_sizeof > 0 && count > 0);
 
 	if (allocator == NULL)
-		allocator = malloc;
+		allocator = n_allocator_default();
 
 	return (t_vector) {
-		.allocator = allocator,
+		.allocator = *allocator,
 		.count = 0,
 		.type_size = _sizeof,
 		.max_count = count,
-		.mem = allocator(_sizeof * count)
+		.mem = allocator->alloc_f(_sizeof * count)
 	};
 }
 
 void n_vector_resize(t_vector *vector, size_t new_count)
 {
-	t_vector	new_vector;
-	size_t		count;
+	assert(vector != NULL && new_count > 0);
 
-	count = new_count;
-	if (vector->count < new_count)
-		count = vector->count;
-	new_vector = n_vector_create_count(vector->type_size, new_count, vector->allocator);
-	n_vector_push_back_array(&new_vector, vector->mem, count);
-	n_vector_free(vector);
-	*vector = new_vector;
+	vector->mem = vector->allocator.realloc_f(vector->mem, vector->type_size * new_count);
+	vector->max_count = new_count;
+	if (vector->count > new_count)
+		vector->count = new_count;
 }
 
 void n_vector_push_back_array(t_vector *vector, void const *data, size_t count)
@@ -61,7 +57,7 @@ void n_vector_free(t_vector *vector)
 {
 	assert(vector != NULL);
 	
-	free(vector->mem);
+	vector->allocator.freef(vector->mem);
 	vector->count = 0;
 	vector->max_count = 0;
 	vector->mem = NULL;

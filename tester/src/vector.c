@@ -1,3 +1,4 @@
+#include "n_vector.h"
 #include "tester.h"
 
 static int vector_compare_int(void const * a, void const * b)
@@ -15,7 +16,7 @@ void test_vector(void)
 {
 	LOG("VECTOR TESTS");
 
-	t_vector vector = n_vector_create( sizeof(int) );
+	t_vector vector = n_vector_create( sizeof(int), malloc);
 	TEST("n_vector_create()", vector.mem != NULL);
 
 	n_vector_push_back(&vector, &(int){4});
@@ -38,6 +39,11 @@ void test_vector(void)
 		n_vector_iterate(&vector, vector_add_one);
 		TEST("n_vector_iterate()", memcmp(_array, vector.mem, sizeof(_array) / sizeof(int)) == 0);
 	}
+
+	n_vector_pop_back(&vector);
+	TEST("n_vector_pop_back()", *((int*)vector.mem + (vector.count - 1)) == 3 )
+
+	TEST("n_vector_last()", *(int*)n_vector_last(&vector) == 3);
 
 	{
 		size_t index = n_vector_search(&vector, &(int){11}, vector_compare_int);

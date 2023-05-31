@@ -3,20 +3,20 @@
 
 t_string n_string_create(void)
 {
-	return (t_string){ .strvec = n_vector_create(sizeof(char)) };
+	return (t_string){ .strvec = n_vector_create(sizeof(char), NULL) };
 }
 
 t_string n_string_create_cstr(char const* cstr)
 {
 	size_t len = strlen(cstr);
-	t_string string = { .strvec = n_vector_create_count(sizeof(char), len) };
+	t_string string = { .strvec = n_vector_create_count(sizeof(char), len, NULL) };
 	n_vector_push_back_array(&(string.strvec), cstr, len);
 	return (string);
 }
 
 t_string n_string_create_count(size_t count)
 {
-	return ((t_string){ n_vector_create_count(sizeof(char), count) });
+	return ((t_string){ n_vector_create_count(sizeof(char), count, NULL) });
 }
 
 void n_string_resize(t_string* string, size_t new_count)

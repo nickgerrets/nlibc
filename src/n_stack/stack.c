@@ -2,7 +2,7 @@
 
 t_stack	n_stack_create(size_t _sizeof)
 {
-	return ((t_stack){.data = n_vector_create(_sizeof)});
+	return ((t_stack){.data = n_vector_create(_sizeof, NULL)});
 }
 
 void	n_stack_push(t_stack *stack, void *data)

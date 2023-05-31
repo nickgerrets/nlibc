@@ -20,20 +20,28 @@ uint64_t n_hash_cstr(char const *str)
 	return (hash);
 }
 
-hashmap_t n_hashmap_create(void)
+hashmap_t n_hashmap_create(allocator_t const* allocator)
 {
+	if (allocator == NULL)
+		allocator = n_allocator_default();
+
 	hashmap_t map = {
-		.buckets = calloc(HASHMAP_DEFAULT_BUCKET_AMOUNT, sizeof(hashmap_pair_t)),
+		.allocator = *allocator,
+		.buckets = allocator->alloc_f(HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(hashmap_pair_t)),
 		.buckets_amount = HASHMAP_DEFAULT_BUCKET_AMOUNT,
-		.hashf = n_hash_cstr};
+		.hashf = n_hash_cstr
+	};
+
+	if (map.buckets != NULL)
+		memset(map.buckets, 0, HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(hashmap_pair_t));
 	return (map);
 }
 
-static hashmap_pair_t* _hm_find_bucket(hashmap_pair_t* bucket, char const* key)
+static hashmap_pair_t* _hm_find_bucket(hashmap_pair_t* bucket, uint64_t hash, char const* key)
 {
 	while (bucket)
 	{
-		if (strcmp(bucket->key, key) == 0)
+		if (bucket->hash == hash && strcmp(bucket->key, key) == 0)
 			return (bucket);
 		bucket = bucket->next;
 	}
@@ -47,6 +55,7 @@ static hashmap_pair_t* _hm_last_bucket(hashmap_pair_t* bucket)
 	return (bucket);
 }
 
+// TODO: use allocator for strdup'ing 'keys'?
 hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* value)
 {
 	assert(hashmap != NULL && key != NULL);
@@ -67,7 +76,7 @@ hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* valu
 	}
 
 	bucket = _hm_last_bucket(bucket);
-	bucket->next = malloc(sizeof(hashmap_pair_t));
+	bucket->next = hashmap->allocator.alloc_f(sizeof(hashmap_pair_t));
 	if (bucket->next == NULL)
 		return (NULL);
 	*(bucket->next) = (hashmap_pair_t) {
@@ -79,7 +88,7 @@ hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* valu
 	return (bucket->next);
 }
 
-void* n_hashmap_get(hashmap_t* hashmap, char const* key)
+void* n_hashmap_get(hashmap_t const* hashmap, char const* key)
 {
 	assert(hashmap != NULL && key != NULL);
 
@@ -90,12 +99,13 @@ void* n_hashmap_get(hashmap_t* hashmap, char const* key)
 	if (bucket->key == NULL)
 		return (NULL);
 	
-	bucket = _hm_find_bucket(bucket, key);
+	bucket = _hm_find_bucket(bucket, hash, key);
 	if (bucket == NULL)
 		return (NULL);
 	return (bucket->value);
 }
 
+// TODO: using allocator for free-ing 'keys'?
 void n_hashmap_free(hashmap_t* hashmap)
 {
 	assert(hashmap != NULL);
@@ -108,10 +118,10 @@ void n_hashmap_free(hashmap_t* hashmap)
 		{
 			hashmap_pair_t* next = list->next;
 			free(list->key);
-			free(list);
+			hashmap->allocator.freef(list);
 			list = next;
 		}
 	}
-	free(hashmap->buckets);
+	hashmap->allocator.freef(hashmap->buckets);
 	hashmap->buckets = NULL;
 }

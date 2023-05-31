@@ -16,7 +16,7 @@ void test_vector(void)
 {
 	LOG("VECTOR TESTS");
 
-	t_vector vector = n_vector_create( sizeof(int), malloc);
+	t_vector vector = n_vector_create( sizeof(int), NULL);
 	TEST("n_vector_create()", vector.mem != NULL);
 
 	n_vector_push_back(&vector, &(int){4});

@@ -5,7 +5,7 @@ void test_hashmap(void)
 {
 	LOG("HASHMAP TESTS");
 
-	hashmap_t hm = n_hashmap_create();
+	hashmap_t hm = n_hashmap_create(NULL);
 	TEST("n_hashmap_create()",
 		hm.buckets_amount == HASHMAP_DEFAULT_BUCKET_AMOUNT
 		&& hm.buckets[0].key == NULL

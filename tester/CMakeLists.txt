@@ -7,6 +7,8 @@ add_executable(${PROJECT_NAME}
 	src/macro_vector.c
 	src/lists.c
 	src/buffer.c
+
+	src/tokenizer.c
 )
 
 target_include_directories( ${PROJECT_NAME}

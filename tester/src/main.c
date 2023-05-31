@@ -8,5 +8,7 @@ int	main(void)
 	test_macrovector(); NL;
 	test_hashmap(); NL;
 
+	test_tokenizer(); NL;
+
 	return (0);
 }

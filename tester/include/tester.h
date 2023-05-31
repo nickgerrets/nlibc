@@ -31,4 +31,6 @@ void test_lists(void);
 void test_macrovector(void);
 void test_buffer(void);
 
+void test_tokenizer(void);
+
 #endif // TESTER_H

@@ -1,6 +1,11 @@
 #ifndef MACRO_VECTOR_H
 # define MACRO_VECTOR_H
 
+/*
+*  Experimental vector implementation using macros.
+*  (I believe I prefer the void* implemetation instead of macros)
+*/
+
 # define macro_vector_t(T)			\
 	struct							\
 	{								\

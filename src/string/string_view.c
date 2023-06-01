@@ -1,35 +1,35 @@
-#include "n_string.h"
+#include "nlibc/string.h"
 
-t_string_window n_string_window_create(char const* start, size_t length)
+StringView string_view_create(char const* start, size_t length)
 {
-	return (t_string_window) {
+	return (StringView) {
 		.p = start,
 		.length = length
 	};
 }
 
-t_string_window n_string_window_create_p(char const* start, char const* end)
+StringView string_view_create_p(char const* start, char const* end)
 {
 	if (!start || !end || end < start)
-		return (t_string_window) {
+		return (StringView) {
 			.p = start,
 			.length = 0
 		};
-	return (t_string_window) {
+	return (StringView) {
 		.p = start,
 		.length = (end - start) / sizeof(char)
 	};
 }
 
-t_string_window n_string_window_create_cstr(char const* cstr)
+StringView string_view_create_cstr(char const* cstr)
 {
-	return (t_string_window) {
+	return (StringView) {
 		.p = cstr,
 		.length = strlen(cstr)
 	};
 }
 
-char* n_string_window_dup(t_string_window const strwin)
+char* string_view_dup(StringView const strwin)
 {
 	char* ret = malloc((strwin.length + 1) * sizeof(char));
 	if (!ret)
@@ -40,7 +40,7 @@ char* n_string_window_dup(t_string_window const strwin)
 }
 
 
-ssize_t n_string_window_write(t_string_window const strwin, int fd)
+ssize_t string_view_write(StringView const strwin, int fd)
 {
 	return (write(fd, strwin.p, sizeof(char) * strwin.length));
 }

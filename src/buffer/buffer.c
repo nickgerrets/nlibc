@@ -6,26 +6,26 @@
 /*   By: ngerrets <ngerrets@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/09/02 15:00:08 by ngerrets      #+#    #+#                 */
-/*   Updated: 2023/05/30 17:32:05 by ngerrets      ########   odam.nl         */
+/*   Updated: 2023/06/01 14:00:21 by ngerrets      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_buffer.h"
+#include "nlibc/buffer.h"
 
 #include <string.h>
 #include <unistd.h>
 #include <assert.h>
 
-buffer_t n_buffer_create(size_t size)
+Buffer buffer_create(size_t size)
 {
-	return (buffer_t) {
-		.mem = calloc(size, sizeof(t_byte)),
+	return (Buffer) {
+		.mem = calloc(size, sizeof(byte_t)),
 		.max_size = size,
 		.curr_size = 0
 	};
 }
 
-size_t n_buffer_add(buffer_t* buffer, void const* data, size_t data_size)
+size_t buffer_add(Buffer* buffer, void const* data, size_t data_size)
 {
 	assert(buffer != NULL && buffer->mem != NULL);
 
@@ -36,14 +36,14 @@ size_t n_buffer_add(buffer_t* buffer, void const* data, size_t data_size)
 	return (buffer->max_size - buffer->curr_size);
 }
 
-ssize_t n_buffer_write(buffer_t const* buffer, int fd)
+ssize_t buffer_write(Buffer const* buffer, int fd)
 {
 	assert(buffer != NULL && buffer->mem != NULL);
 
 	return (write(fd, buffer->mem, buffer->curr_size));
 }
 
-ssize_t n_buffer_read(buffer_t* buffer, int fd, size_t size)
+ssize_t buffer_read(Buffer* buffer, int fd, size_t size)
 {
 	assert(buffer != NULL && buffer->mem != NULL);
 
@@ -56,7 +56,7 @@ ssize_t n_buffer_read(buffer_t* buffer, int fd, size_t size)
 	return (read_size);
 }
 
-void n_buffer_free(buffer_t* buffer)
+void buffer_free(Buffer* buffer)
 {
 	assert(buffer != NULL);
 

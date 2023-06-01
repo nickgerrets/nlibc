@@ -5,25 +5,25 @@ project(nlibc)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 add_library(${PROJECT_NAME}
-	src/n_buffer/buffer.c
+	src/buffer/buffer.c
 
-	src/n_list/list_alloc.c
-	src/n_list/list.c
+	src/list/list_alloc.c
+	src/list/list.c
 
-	src/n_protect/protect.c
+	src/protect/protect.c
 
-	src/n_stack/stack.c
+	src/stack/stack.c
 
-	src/n_string/string_window.c
-	src/n_string/string.c
+	src/string/string_view.c
+	src/string/string.c
 
-	src/n_vector/vector_alloc.c
-	src/n_vector/vector.c
-	src/n_vector/vector_search.c
+	src/vector/vector_alloc.c
+	src/vector/vector.c
+	src/vector/vector_search.c
 
-	src/n_hashmap/hashmap.c
+	src/hashmap/hashmap.c
 
-	src/n_allocator/allocator.c
+	src/allocator/allocator.c
 )
 
 add_library(nlibc::nlibc ALIAS ${PROJECT_NAME})

@@ -3,7 +3,7 @@
 int	main(void)
 {
 	test_buffer(); NL;
-	test_lists(); NL;
+	test_list(); NL;
 	test_vector(); NL;
 	test_macrovector(); NL;
 	test_hashmap(); NL;

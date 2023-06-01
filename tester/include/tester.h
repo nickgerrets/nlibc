@@ -6,7 +6,7 @@
 # include <stdbool.h>
 # include <string.h>
 
-# include "nlibc.h"
+# include "nlibc/nlibc.h"
 
 # define NL write(STDOUT_FILENO, &"\n", sizeof(char));
 # define IND write(STDOUT_FILENO, &"\t", sizeof(char));
@@ -27,7 +27,7 @@
 
 void test_vector(void);
 void test_hashmap(void);
-void test_lists(void);
+void test_list(void);
 void test_macrovector(void);
 void test_buffer(void);
 

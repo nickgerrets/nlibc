@@ -1,21 +1,21 @@
-#include "n_vector.h"
+#include "nlibc/vector.h"
 
 #include <string.h>
 #include <assert.h>
 
-t_vector n_vector_create(size_t _sizeof, allocator_t const* allocator)
+Vector vector_create(size_t _sizeof, Allocator const* allocator)
 {
-	return (n_vector_create_count(_sizeof, 1, allocator));
+	return (vector_create_count(_sizeof, 1, allocator));
 }
 
-t_vector n_vector_create_count(size_t _sizeof, size_t count, allocator_t const* allocator)
+Vector vector_create_count(size_t _sizeof, size_t count, Allocator const* allocator)
 {
 	assert(_sizeof > 0 && count > 0);
 
 	if (allocator == NULL)
-		allocator = n_allocator_default();
+		allocator = allocator_default();
 
-	return (t_vector) {
+	return (Vector) {
 		.allocator = *allocator,
 		.count = 0,
 		.type_size = _sizeof,
@@ -24,7 +24,7 @@ t_vector n_vector_create_count(size_t _sizeof, size_t count, allocator_t const* 
 	};
 }
 
-void n_vector_resize(t_vector *vector, size_t new_count)
+void vector_resize(Vector *vector, size_t new_count)
 {
 	assert(vector != NULL && new_count > 0);
 
@@ -34,26 +34,26 @@ void n_vector_resize(t_vector *vector, size_t new_count)
 		vector->count = new_count;
 }
 
-void n_vector_push_back_array(t_vector *vector, void const *data, size_t count)
+void vector_push_back_array(Vector *vector, void const *data, size_t count)
 {
 	assert(vector != NULL && data != NULL);
 
 	if (vector->count + count > vector->max_count)
 	{
-		size_t new_max = vector->max_count * N_VECTOR_GROWTH_FACTOR;
+		size_t new_max = vector->max_count * VECTOR_GROWTH_FACTOR;
 		while (new_max < vector->count + count)
-			new_max *= N_VECTOR_GROWTH_FACTOR;
-		n_vector_resize(vector, new_max);
+			new_max *= VECTOR_GROWTH_FACTOR;
+		vector_resize(vector, new_max);
 	}
 	
 	if (vector->mem == NULL)
 		return ;
 
-	memcpy((t_byte*)vector->mem + n_vector_size(vector), data, vector->type_size * count);
+	memcpy((byte_t*)vector->mem + vector_size(vector), data, vector->type_size * count);
 	vector->count += count;
 }
 
-void n_vector_free(t_vector *vector)
+void vector_free(Vector *vector)
 {
 	assert(vector != NULL);
 	

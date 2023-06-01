@@ -1,6 +1,6 @@
-#include "n_vector.h"
+#include "nlibc/vector.h"
 
-size_t n_vector_search(t_vector const * vector, void const * search, t_compare_data_f compare_f)
+size_t vector_search(Vector const * vector, void const * search, compare_func_t compare_f)
 {
 	size_t index;
 	void * element;
@@ -8,7 +8,7 @@ size_t n_vector_search(t_vector const * vector, void const * search, t_compare_d
 	index = 0;
 	while (index < vector->count)
 	{
-		element = n_vector_at(vector, index);
+		element = vector_at(vector, index);
  		if (compare_f(search, element) == 0)
 			return (index);
 		++index;

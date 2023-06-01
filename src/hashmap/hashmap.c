@@ -1,4 +1,4 @@
-#include "n_hashmap.h"
+#include "nlibc/hashmap.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -6,7 +6,7 @@
 #include <assert.h>
 
 /* Polynomial rolling hash function for C-strings */
-uint64_t n_hash_cstr(char const *str)
+uint64_t hash_cstr(char const *str)
 {
 	uint64_t hash = 0;
 	uint64_t p = 31;
@@ -20,24 +20,24 @@ uint64_t n_hash_cstr(char const *str)
 	return (hash);
 }
 
-hashmap_t n_hashmap_create(allocator_t const* allocator)
+Hashmap hashmap_create(Allocator const* allocator)
 {
 	if (allocator == NULL)
-		allocator = n_allocator_default();
+		allocator = allocator_default();
 
-	hashmap_t map = {
+	Hashmap map = {
 		.allocator = *allocator,
-		.buckets = allocator->alloc_f(HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(hashmap_pair_t)),
+		.buckets = allocator->alloc_f(HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(HashmapPair)),
 		.buckets_amount = HASHMAP_DEFAULT_BUCKET_AMOUNT,
-		.hashf = n_hash_cstr
+		.hashf = hash_cstr
 	};
 
 	if (map.buckets != NULL)
-		memset(map.buckets, 0, HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(hashmap_pair_t));
+		memset(map.buckets, 0, HASHMAP_DEFAULT_BUCKET_AMOUNT * sizeof(HashmapPair));
 	return (map);
 }
 
-static hashmap_pair_t* _hm_find_bucket(hashmap_pair_t* bucket, uint64_t hash, char const* key)
+static HashmapPair* _hm_find_bucket(HashmapPair* bucket, uint64_t hash, char const* key)
 {
 	while (bucket)
 	{
@@ -48,7 +48,7 @@ static hashmap_pair_t* _hm_find_bucket(hashmap_pair_t* bucket, uint64_t hash, ch
 	return (NULL);
 }
 
-static hashmap_pair_t* _hm_last_bucket(hashmap_pair_t* bucket)
+static HashmapPair* _hm_last_bucket(HashmapPair* bucket)
 {
 	while (bucket->next)
 		bucket = bucket->next;
@@ -56,17 +56,17 @@ static hashmap_pair_t* _hm_last_bucket(hashmap_pair_t* bucket)
 }
 
 // TODO: use allocator for strdup'ing 'keys'?
-hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* value)
+HashmapPair* hashmap_insert(Hashmap* hashmap, char const* key, void* value)
 {
 	assert(hashmap != NULL && key != NULL);
 
 	uint64_t hash = hashmap->hashf(key);
 	size_t index = hash % hashmap->buckets_amount;
 
-	hashmap_pair_t* bucket = hashmap->buckets + index;
+	HashmapPair* bucket = hashmap->buckets + index;
 	if (bucket->key == NULL)
 	{
-		*bucket = (hashmap_pair_t) {
+		*bucket = (HashmapPair) {
 			.hash = hash,
 			.key = strdup(key),
 			.value = value,
@@ -76,10 +76,10 @@ hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* valu
 	}
 
 	bucket = _hm_last_bucket(bucket);
-	bucket->next = hashmap->allocator.alloc_f(sizeof(hashmap_pair_t));
+	bucket->next = hashmap->allocator.alloc_f(sizeof(HashmapPair));
 	if (bucket->next == NULL)
 		return (NULL);
-	*(bucket->next) = (hashmap_pair_t) {
+	*(bucket->next) = (HashmapPair) {
 		.hash = hash,
 		.key = strdup(key),
 		.value = value,
@@ -88,14 +88,14 @@ hashmap_pair_t* n_hashmap_insert(hashmap_t* hashmap, char const* key, void* valu
 	return (bucket->next);
 }
 
-void* n_hashmap_get(hashmap_t const* hashmap, char const* key)
+void* hashmap_get(Hashmap const* hashmap, char const* key)
 {
 	assert(hashmap != NULL && key != NULL);
 
 	uint64_t hash = hashmap->hashf(key);
 	size_t index = hash % hashmap->buckets_amount;
 
-	hashmap_pair_t* bucket = hashmap->buckets + index;
+	HashmapPair* bucket = hashmap->buckets + index;
 	if (bucket->key == NULL)
 		return (NULL);
 	
@@ -106,17 +106,17 @@ void* n_hashmap_get(hashmap_t const* hashmap, char const* key)
 }
 
 // TODO: using allocator for free-ing 'keys'?
-void n_hashmap_free(hashmap_t* hashmap)
+void hashmap_free(Hashmap* hashmap)
 {
 	assert(hashmap != NULL);
 
 	for (size_t index = 0; index < hashmap->buckets_amount; ++index)
 	{
 		free(hashmap->buckets[index].key);
-		hashmap_pair_t* list = hashmap->buckets[index].next;
+		HashmapPair* list = hashmap->buckets[index].next;
 		while (list)
 		{
-			hashmap_pair_t* next = list->next;
+			HashmapPair* next = list->next;
 			free(list->key);
 			hashmap->allocator.freef(list);
 			list = next;
